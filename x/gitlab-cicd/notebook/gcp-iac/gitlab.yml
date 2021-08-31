@@ -1,0 +1,200 @@
+- hosts: localhost
+  gather_facts: false 
+  force_handlers: true
+  tasks:
+    - name: "Assert required vars"
+      ansible.builtin.assert:
+        that:
+          - curr_env is defined
+          - customer is defined
+          - product_instance is defined
+          - project_id is defined
+      tags: destroy_only
+
+    - name: set gitlab_namespace from provided curr_env
+      ansible.builtin.set_fact:
+        gitlab_namespace: "{{ curr_env }}-gitlab"
+        cluster_name: "{{ cluster_name | default( curr_env + '-' + product_instance ) }}"
+
+    - name: read project-specific vars
+      ansible.builtin.include_vars:
+        file: customer_products/{{ customer }}/{{ product_instance }}/{{ project_id }}/vars.yml
+
+    - name: include project-specific vault
+      include_vars:
+        file: customer_products/{{ customer }}/{{ product_instance }}/{{ project_id }}/vault.yml
+        name: vault_input_config
+
+    - name: Include App Specific Environment Variables
+      ansible.builtin.include_vars:
+        dir: apps/gitlab/{{ curr_env }}
+
+    - name: "Assert required App Specific vars"
+      ansible.builtin.assert:
+        that:
+          - gitlab_psql_password is defined
+          - gitlab_rails_secret is defined
+          - gitlab_storage_config is defined
+          - gitlab_psql_server_crt is defined
+          - gitlab_psql_server_key is defined
+          - gitlab_psql_ca_crt is defined
+
+    - name: Use gcloud, set current project 
+      ansible.builtin.shell:
+        cmd: "gcloud config set project {{ project_id }}"
+
+    - name: Use gcloud to connect to cluster 
+      ansible.builtin.shell:
+        cmd:  "gcloud container clusters get-credentials {{ cluster_name }} --zone {{ project_location['zone'] }} --project {{ project_id }}"
+
+    - name: "Assert required app vars"
+      ansible.builtin.assert:
+        that:
+          - gitlab_chart_version is defined
+
+
+    - name: Get the gitlab helm repo
+      ansible.builtin.command: >
+        helm repo add gitlab https://charts.gitlab.io
+      register: helm_repo
+      changed_when: helm_repo.rc != 0
+  
+    - name: Run an update of the helm repo
+      ansible.builtin.command: >
+        helm repo update
+      register: helm_repo_update
+      changed_when: helm_repo_update.rc != 0
+
+    - name: Template out the values.yaml file
+      template:
+        src: gitlab/gitlab-values.yml.j2
+        dest: /tmp/gitlab.values.yml
+      notify: cleanup
+
+    - name: Ensure {{ gitlab_namespace }} namespace exists
+      k8s:
+        api_version: v1
+        kind: Namespace
+        name: "{{ gitlab_namespace }}"
+        kubeconfig: "{{ kubeconfig_path | default(omit) }}"
+        wait: true
+     
+    - name: Create a mutual TLS PSQL secret
+      community.kubernetes.k8s:
+        kubeconfig: "{{ kubeconfig_path | default(omit) }}"
+        state: present
+        definition: 
+          apiVersion: v1
+          kind: Secret
+          type: Opaque             
+          metadata:
+            name: "gitlab-psql-ssl"
+            namespace: "{{ gitlab_namespace }}"
+          data:
+            server.crt: "{{ gitlab_psql_server_crt | b64encode }}"
+            server.key: "{{ gitlab_psql_server_key | b64encode }}"
+            ca.crt: "{{ gitlab_psql_ca_crt | b64encode }}"
+
+    - name: Create a PSQL Password 
+      community.kubernetes.k8s:
+        kubeconfig: "{{ kubeconfig_path | default(omit) }}"
+        state: present
+        definition: 
+          apiVersion: v1
+          kind: Secret
+          type: Opaque             
+          metadata:
+            name: "gitlab-psql"
+            namespace: "{{ gitlab_namespace }}"
+          data:
+            password: "{{ gitlab_psql_password | b64encode }}"
+
+    # needed for rails and other apps that use object storage
+    # https://docs.gitlab.com/14.1/charts/advanced/external-object-storage/index.html
+    - name: Create Google storage secret 
+      community.kubernetes.k8s:
+        kubeconfig: "{{ kubeconfig_path | default(omit) }}"
+        state: present
+        definition: 
+          apiVersion: v1
+          kind: Secret
+          type: Opaque             
+          metadata:
+            name: "gitlab-rail-storage"
+            namespace: "{{ gitlab_namespace }}"
+          data:
+            connection: "{{ gitlab_storage_config | b64encode }}"
+
+    # https://docs.gitlab.com/14.1/charts/backup-restore/index.html#backups-to-google-cloud-storage-gcs
+    # needed for task runner
+    - name: Create Gitlab GCS key secret 
+      community.kubernetes.k8s:
+        kubeconfig: "{{ kubeconfig_path | default(omit) }}"
+        state: present
+        definition: 
+          apiVersion: v1
+          kind: Secret
+          type: Opaque             
+          metadata:
+            name: "gitlab-gcs-key"
+            namespace: "{{ gitlab_namespace }}"     
+          data:
+            config: "{{ gitlab_gcs_key_string | to_json | b64encode }}"
+
+    # https://docs.gitlab.com/charts/charts/globals#omniauth
+    - name: Create Gitlab OAuth
+      community.kubernetes.k8s:
+        kubeconfig: "{{ kubeconfig_path | default(omit) }}"
+        state: present
+        definition: 
+          apiVersion: v1
+          kind: Secret
+          type: Opaque             
+          metadata:
+            name: "gitlab-google-oauth2"
+            namespace: "{{ gitlab_namespace }}"     
+          data:
+            provider: "{{ gitlab_google_oauth2 | to_nice_yaml | b64encode }}"
+
+    - name: Create Gitlab rails secret 
+      community.kubernetes.k8s:
+        kubeconfig: "{{ kubeconfig_path | default(omit) }}"
+        state: present
+        definition: 
+          apiVersion: v1
+          kind: Secret
+          type: Opaque             
+          metadata:
+            name: "gitlab-rails-secret"
+            namespace: "{{ gitlab_namespace }}"     
+          data:
+            secrets.yml: "{{ gitlab_rails_secret | b64encode }}"
+
+    - name: Expand Gitlab Runner Helm Template
+      ansible.builtin.shell: >
+        helm template gitlab gitlab/gitlab
+        --namespace {{ gitlab_namespace }}
+        --values /tmp/gitlab.values.yml
+        --version {{ gitlab_chart_version }}
+        > gitlab_manifest.yml
+      notify: cleanup
+      check_mode: false
+       
+    - name: Gitlab - Install
+      community.kubernetes.helm:
+        name: gitlab
+        chart_ref: gitlab/gitlab
+        chart_version: "{{ gitlab_chart_version }}"
+        release_namespace: "{{ gitlab_namespace }}"
+        values_files:
+          - /tmp/gitlab.values.yml
+      notify: cleanup
+         
+  handlers:
+    - name: cleanup
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - gitlab_manifest.yml
+        - /tmp/gitlab.values.yml

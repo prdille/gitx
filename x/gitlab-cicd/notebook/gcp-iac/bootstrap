@@ -1,0 +1,157 @@
+- hosts: "{{ host_group_name | default('localhost') }}"
+  gather_facts: true
+  force_handlers: true
+  connection: local
+  vars:
+    generated_vars_path: "{{ playbook_dir }}/generated_vars"
+    generated_terraform_path: "{{ playbook_dir }}/generated_terraform"
+
+  pre_tasks:
+    - name: Ensure destroy_only tag support
+      tags: destroy_only
+      block:
+        - name: Ensure all required vars are defined
+          ansible.builtin.assert:
+            that:
+              - customer is defined
+              - product_instance is defined
+              - project_id is defined
+
+        - name: read project-specific vars
+          ansible.builtin.include_vars:
+            file: customer_products/{{ customer }}/{{ product_instance }}/{{ project_id }}/vars.yml
+
+        - name: include project-specific vault
+          include_vars:
+            file: customer_products/{{ customer }}/{{ product_instance }}/{{ project_id }}/vault.yml
+            name: vault_input_config
+
+        - name: Load in Terraform App Component Information  
+          ansible.builtin.include_vars:
+            file: terraform_apps/terraform_apps_components.yml
+
+        - name: "Load in product specified by meta.yml"
+          ansible.builtin.set_fact:
+            gcp_product: "{{ product_instance_config['gcp_product']['name'] }}"
+
+        - name: include {{ gcp_product }} model-specific vars
+          ansible.builtin.include_vars:
+            file: products/{{ gcp_product }}.yml
+
+        - name: Create a list of product component names from product_bootstrap_components data structure and a dictionary of component versions
+          ansible.builtin.set_fact:
+            product_component_name_list: "{{ product_component_name_list |default([]) + [item.1.name] }}"
+            product_component_version_dict: "{{ product_component_version_dict | default({}) | combine( { item.1.name: item.1.version } ) }}"
+          loop: "{{ product_bootstrap_components | subelements('cohort') }}"
+       
+        - name: Template out IaC GCP IAM Role for each project
+          template:
+            src: infrastructure-as-code-role.json.j2
+            dest: iac-role-{{ project_id }}.json
+            mode: 0600
+
+        # This command attempts to create the iac role, and if that fails attempt to update the role
+        - name: Create or Update terraform iam role
+          ansible.builtin.shell:
+            cmd: |
+              gcloud config set project {{ project_id }};
+              gcloud iam roles create infrastructure_as_code \
+              --project=`gcloud config get-value project` \
+              --file=iac-role-{{ project_id }}.json \
+              ||
+              gcloud iam roles update infrastructure_as_code \
+              --file=iac-role-{{ project_id }}.json \
+              --project={{ project_id }}
+
+        - name: Enable prerequisite APIs
+          ansible.builtin.shell:
+            cmd: |
+              gcloud config set project {{ project_id }};
+              gcloud services enable serviceusage.googleapis.com
+              gcloud services enable cloudresourcemanager.googleapis.com
+              gcloud services enable container.googleapis.com
+
+        - name: Create terraform service account in project, and bind appropriate roles
+          ansible.builtin.shell:
+            cmd: |
+              gcloud config set project {{ project_id }}; 
+              gcloud iam service-accounts create terraform --description="Terraform Account for IaC" --display-name=terraform || echo "sa exists"
+              gcloud projects add-iam-policy-binding `gcloud config get-value project` --member=serviceAccount:terraform@`gcloud config get-value project`.iam.gserviceaccount.com --role=roles/iam.serviceAccountUser
+              gcloud projects add-iam-policy-binding `gcloud config get-value project` --member=serviceAccount:terraform@`gcloud config get-value project`.iam.gserviceaccount.com --role=projects/`gcloud config get-value project`/roles/infrastructure_as_code
+              gcloud projects add-iam-policy-binding `gcloud config get-value project` --member=serviceAccount:terraform@`gcloud config get-value project`.iam.gserviceaccount.com --role=roles/servicenetworking.serviceAgent
+              gcloud projects add-iam-policy-binding `gcloud config get-value project` --member=serviceAccount:terraform@`gcloud config get-value project`.iam.gserviceaccount.com --role=roles/cloudsql.admin
+              gcloud projects add-iam-policy-binding `gcloud config get-value project` --member=serviceAccount:terraform@`gcloud config get-value project`.iam.gserviceaccount.com --role=roles/container.admin
+              gcloud projects add-iam-policy-binding `gcloud config get-value project` --member=serviceAccount:terraform@`gcloud config get-value project`.iam.gserviceaccount.com --role=roles/cloudfunctions.developer
+              gcloud projects add-iam-policy-binding `gcloud config get-value project` --member=serviceAccount:terraform@`gcloud config get-value project`.iam.gserviceaccount.com --role=roles/compute.securityAdmin
+              gcloud projects add-iam-policy-binding `gcloud config get-value project` --member=serviceAccount:terraform@`gcloud config get-value project`.iam.gserviceaccount.com --role=roles/pubsub.editor
+              gcloud projects add-iam-policy-binding `gcloud config get-value project` --member=serviceAccount:terraform@`gcloud config get-value project`.iam.gserviceaccount.com --role=roles/monitoring.notificationChannelEditor
+              gcloud projects add-iam-policy-binding `gcloud config get-value project` --member=serviceAccount:terraform@`gcloud config get-value project`.iam.gserviceaccount.com --role=roles/monitoring.alertPolicyEditor
+              gcloud projects add-iam-policy-binding `gcloud config get-value project` --member=serviceAccount:terraform@`gcloud config get-value project`.iam.gserviceaccount.com --role=roles/iam.roleAdmin
+              gcloud projects add-iam-policy-binding `gcloud config get-value project` --member=serviceAccount:terraform@`gcloud config get-value project`.iam.gserviceaccount.com --role=roles/binaryauthorization.policyAdmin
+              gcloud projects add-iam-policy-binding `gcloud config get-value project` --member=serviceAccount:terraform@`gcloud config get-value project`.iam.gserviceaccount.com --role=roles/vpcaccess.admin
+
+        - name: Set Up terraform state bucket and permissions
+          ansible.builtin.shell:
+            cmd: |
+              gcloud config set project {{ gcp_terraform_bucket_project }}
+              if ! gsutil acl get gs://{{ project_id }}-tfstate ; then
+                 gsutil mb gs://{{ project_id }}-tfstate
+              fi
+              gsutil versioning set on gs://{{ project_id }}-tfstate
+              gsutil iam ch serviceAccount:terraform@{{ project_id }}.iam.gserviceaccount.com:roles/storage.legacyBucketOwner gs://{{ project_id }}-tfstate
+              gsutil iam ch serviceAccount:terraform@{{ project_id }}.iam.gserviceaccount.com:roles/storage.objectAdmin gs://{{ project_id }}-tfstate
+          register: bucket_results
+          tags: bucket_setup
+
+        - name: Run product_vars using shell module so that we can dynmically include playbook | lint
+          ansible.builtin.shell:
+            cmd:
+              "pwd && ls && ansible-playbook product_vars.yml -e customer={{ customer }} \
+              -e product_instance={{ product_instance }} \
+              -e project_id={{ project_id }}"
+          register: product_vars
+
+        - name: Print register of product_vars playbook run for debugging
+          ansible.builtin.debug:
+            var: product_vars.stdout
+
+        - name: Init terraform for project
+          ansible.builtin.shell:
+            cmd: terraform init -backend-config=bucket={{ project_id }}-tfstate -backend-config=prefix=cross_project
+            chdir: "{{ generated_terraform_path }}/{{ project_id }}/cross_project"
+
+        - name: Run terraform plan and register output
+          ansible.builtin.shell:
+            cmd: terraform plan -var-file=vars.json -out=tf.tfplan
+            chdir: "{{ generated_terraform_path }}/{{ project_id }}/cross_project"
+          register: tfplan_out
+
+        - name: Print the tfplan output
+          ansible.builtin.debug:
+            var: tfplan_out.stdout_lines
+
+        - name: Review tfplan output and/or file.  If all looks well, then apply the tf.tfplan file
+          vars:
+            msg: |
+                1. cd {{ generated_terraform_path }}/{{ project_id }}/cross_project
+                2. terraform apply tf.tfplan
+          ansible.builtin.debug:
+            msg: "{{ msg.split('\n') }}"
+
+        - name: To initialize project workspaces, these URLs need to be visited once
+          ansible.builtin.debug:
+            msg: https://console.cloud.google.com/monitoring/signup?{{ project_id }}
+
+        # Future automation idea.
+        # 1. Run command to create cluster
+        # 2. gcloud beta iam workload-identity-pools list (on a loop until it returns correct result)
+        # 3. gcloud command to delete cluster
+        - name: Before you can run Conan the Deployer you must first create a cluster for Crom with workload_identity enabled.
+          vars:
+            msg: |
+                1. gcloud config set project {{ project_id }}
+                2. gcloud container clusters create tmpcluster --workload-pool={{ project_id }}.svc.id.goog --zone=us-central1-a --network um-default --subnetwork um-default-us-central1
+          ansible.builtin.debug:
+            msg: "{{ msg.split('\n') }}" 
+          
+            
