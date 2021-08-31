@@ -1,0 +1,36 @@
+# git commit with a typo?
+# no worries
+
+git commit --amend ## will open vim
+git log ## will show the changes
+
+
+
+
+git stash pop # last thing you put in the stash, and applies it to your current state
+
+git stash apply # this also works
+
+# git remote
+git remote -v # shows the remotes for the repository
+
+git
+  dvcs
+    distributed version control system
+    
+    origin 
+    
+    remote
+    
+    fork
+      - my own copy
+      
+      - remote
+        - upstream
+        
+        - merge from upstream into origin and then origin into local repo
+    
+2021-08-17
+# Ben guiding Li on a git mismatch
+git diff
+git checkout [path-to-file] 

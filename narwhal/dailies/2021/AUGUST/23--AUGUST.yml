@@ -1,0 +1,185 @@
+23-aug-2021
+#####################
+#### MONDAY-23 ######
+#####################
+
+
+SICK
+
+
+#####################
+#### TUESDAY-24 ######
+#####################
+-
+  follow the gitlab docs exactly 
+
+09:00
+  - Backups:
+    'https://docs.gitlab.com/13.12/charts/backup-restore/backup.html'
+    - persistence enabled:
+      'https://docs.gitlab.com/charts/charts/gitlab/task-runner/'
+    - everyday at 01:00
+  - Restore:
+    'https://docs.gitlab.com/13.12/charts/backup-restore/restore.html'
+10:00
+- Firedrill of Tomorrow
+  - what backups are available
+  - figure out what you are going to use
+  - plug in the deets
+  
+10:00
+- Uninstall
+  - never enable the persistent values
+  - helm 
+
+
+kubectl exec -it -n dev-gitlab $(kubectl get pod --label release=gitlab,app=task-runner -n $ENV-gitlab -ojsonpath='{.items[0].metadata.name}') -- backup-utility --restore -t 1629483807_2021_08_20_13.6.7-ee
+
+kubectl exec -it -n dev-gitlab $(kubectl get pod --label release=gitlab,app=task-runner -n $ENV-gitlab -ojsonpath='{.items[0].metadata.name}') -- backup-utility --restore -t 1629483807_2021_08_20_13.6.7-ee
+
+
+
+
+  
+13:00
+
+14:00
+technical call
+
+
+
+#####################
+#### WEDNESDAY-25 ######
+#####################
+
+TC:
+  level 1 auth for gitlab
+    Authorization and Authentication:
+      - https://docs.gitlab.com/13.12/ee/administration/auth/ldap/
+
+https://docs.gitlab.com/13.12/ee/administration/auth/ldap/google_secure_ldap.html
+      - Google
+      
+      
+gitlab product chart docs:
+  - https://gitlab.com/gitlab-org/charts/gitlab/
+  
+  - https://docs.gitlab.com/charts/charts/globals#omniauth
+  
+TC:
+  Level 1 authentication
+AC:
+  gitlab has good docs on using googles Oauth authenticaiton to ensure that it works
+OBS:
+
+NS:
+  - set up google omni auth
+HYP:
+  - be able to login as mjohnw@umich
+  - access to gitlab.dev
+  
+  
+setup the oauth page in the project
+oauth settings are project wide not env specific
+  gitlab
+---  
+  app_id: "{{ vault_gitlab_google_oauth2_app_id }}"
+  app_secret: "{{ vault_gitlab_google_oauth2_app_secret }}"
+  
+644924187413-bl5pmdtgqvj4bedt5h0jnm75qcdlft4p.apps.googleusercontent.com
+5Zpo2byEBL4eJf_0VcEBIV1x
+---
+
+AC:
+
+OBS:
+  
+  
+  
+kubectl create secret generic -n NAMESPACE SECRET_NAME --from-file=provider=provider.yaml
+
+TC:
+  Aut working
+AC:
+  provided a correct 
+    - app_id
+    - secret
+OBS:
+  nothing shows in the auth login 
+  ldap configuraiton need to be turned off?
+
+NS:
+  troubleshoot
+  
+14:00
+got it
+
+gSL!2Vw5LYhp9kbgCG3iJ
+
+
+16:00
+li driving:
+cp psql_db.yml gitlab_level1_email.yml
+
+query them dbs 
+get them emails 
+get them level onesw
+
+#####################
+#### THURSDAY-26 ######
+#####################
+
+
+
+
+query_all_results
+in the register
+  query_result
+
+  output for each module will be different
+  every module has output of some sort
+    register saves the output for different use
+    
+  ansible also knows
+  
+    i/o to the module
+
+    ansible is the thing
+    
+query_result
+
+
+13:30
+  Scrivin:
+  Li Drivin:
+  
+TC:
+  ldap module to search for object class "svc_acct" or some such
+  
+AC:
+  https://docs.ansible.com/ansible/latest/collections/community/general/ldap_search_module.html
+  
+  play go on the pod
+  play local host ldap sewarch
+  play to go on the pod
+  
+#####################
+#### FRIDAY-27 ######
+#####################
+
+dropping it to a file no matter what
+
+temp table in our dbs
+
+OR
+
+json file
+
+- speed of query is nice
+- ansible memeory is also quick
+    - ansible.memory
+  - key in dict
+
+
+
+

@@ -1,0 +1,57 @@
+29-JULY-2021
+
+
+Focus Process:
+Challenge:
+
+############################
+############################
+#### TARGET CONDITION ######
+############################
+############################
+  - Reliable, knowledgeable, expert, master in Google Kubernetes Engine (GKE)
+      - Google Cloud
+      - Kubernetes
+
+############################
+############################
+#### CURRENT CONDITION #####
+############################
+############################    
+
+  - taking class on LinkedIn
+      - helping the everyday vernacular
+        - k8s cluster, pod, kuble, container, runner
+        - 30 min
+        
+  - Driving today
+    - interacting with Google Console
+      - navigating 
+        
+        
+############################
+############################
+######  OBSTACLES    #######
+############################
+############################    
+        
+  - Time management/Workflow
+    - Workstation woes
+    
+  - Organizing
+  
+  - Not an expert YET
+    - don't know what I don't know
+    
+    
+  
+External 
+
+  Experimenting Record:
+  
+
+
+
+  Obstacles Parking Lot:
+
+

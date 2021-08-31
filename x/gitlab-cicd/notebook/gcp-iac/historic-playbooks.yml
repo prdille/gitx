@@ -1,0 +1,9 @@
+-i
+accessories.yml
+ansible-playbook
+bootstrap_product_instance.yml
+deploy-jenkins.yml
+gitlab.yml
+product_vars.yml
+psql_db.yml
+~/git/devops/devops_workstation

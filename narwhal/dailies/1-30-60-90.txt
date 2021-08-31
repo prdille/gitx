@@ -1,0 +1,64 @@
+1-30-60-90
+
+28-JULY-2021
+
+
+Day 30
+  - Carol’s Expectations - see one-on-one meetings
+  - Participated in a merge request/code review process
+    - many many many
+  - Participated in one retreat/pairing session
+    - the mob
+  - Participated in a full sprint, with at least one completed task
+    - the mob
+  - Understand the dynamics of the team and Carol’s expectations
+    - 
+  - Added to Ops work triage rotation (pairing)
+    - will adding complexity be beneficial
+    - removing waste
+    - 
+
+
+
+- Deep dive into our architecture
+  - gitlab
+    - navigate current repos
+    - LinkedIn Learning course
+  - gke
+    - navigate Google Console
+    - LinkedIn Learning course
+
+
+
+
+
+- Languages
+  - live
+  - classes/courses if time—linkdin
+    - ansible
+    - python
+
+
+
+
+
+Day 60
+  - Demonstrated familiarity with the DevOps Google Cloud codebase
+  - Demonstrated familiarity with CI/CD pipelines
+    - Jenkins
+    - gitlab
+  - Personal direction and fit within team analyzed
+    - areas needing direction
+    - lost?
+    - mr. spock or even Uhura
+
+    - How do I see my own direction in the team
+    - “solve intersting and cool problems”
+
+
+
+    
+
+
+Create certs for them
+  - greta

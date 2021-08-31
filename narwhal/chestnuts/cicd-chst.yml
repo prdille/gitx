@@ -1,0 +1,21 @@
+--- i a c ---
+name: cicd-gitlab
+
+
+web-docs:
+  high-concept:
+    https://git.umms.med.umich.edu/devops/gcp-iac/-/blob/master/docs/Concepts/README.md
+    
+  Google Cloud Platform - Infrastructure as Code: 'gcp-iac'
+    https://git.umms.med.umich.edu/devops/gcp-iac/-/blob/master/README.md
+  
+  git-helm_version-map:
+    https://docs.gitlab.com/charts/installation/version_mappings.html
+  
+
+
+playbook:
+- export COMMON_NAME=gitlab-test.app.med.umich.edu
+- ansible-playbook local-filregistry-test.app.med.umich.edu-e certmgr_dest_dir='/tmp' --vault-password-file=drive
+
+

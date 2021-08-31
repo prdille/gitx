@@ -1,0 +1,76 @@
+--- DIVERSION ---
+ 
+############################
+############################
+#### TARGET CONDITION ######
+############################
+############################
+What are we trying to achieve
+[FRESH]
+  - Create an interactive diagram document of gcp-iac
+
+
+############################
+############################
+#### CURRENT CONDITION #####
+############################
+############################  
+Where are we now?
+[FRESH]
+  
+############################
+############################
+######  OBSTACLES    #######
+############################
+############################  
+What's currently in our way?
+[FRESH]
+  - What changes require Conan vs playbook vs kubectl vs gcloud
+    - individually
+    - in consort
+    
+    
+    
+############################
+############################
+######  NEXT STEP    #######
+############################
+What's our next experiment?
+[FRESH]
+  - review 
+    - playbooks at highest levels
+    - history of kubectl
+    - history of gcloud
+    - history of ansible
+
+
+############################
+############################
+######   RESULTS     #######
+############################
+############################     
+When can we see what we've learned from that step?
+[FRESH]
+  - Monday kata
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+
+  

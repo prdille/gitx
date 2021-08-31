@@ -1,0 +1,61 @@
+t-800:
+- export COMMON_NAME=gitlab-test.app.med.umich.edu
+- ansible-playbook local-filregistry-test.app.med.umich.edu-e certmgr_dest_dir='/tmp' --vault-password-file=drive
+
+
+- gcloud container clusters get-credentials test-tooling --zone us-central1-a --prk get ns 
+                                                                                                
+NAME              STATUS   AGE
+default           Active   22h
+kube-node-lease   Active   22h
+kube-public       Active   22h
+kube-system       Active   22h
+test-gitlab       Active   16h
+%                                                                                                                                                                             
+
+
+
+
+#k8s
+- k get secrets -n test-gitlab
+NAME                                  TYPE                                  DATA   AGE
+default-token-6p2t4                   kubernetes.io/service-account-token   3      16h
+gitlab-gitaly-secret                  Opaque                                1      16h
+gitlab-gitlab-initial-root-password   Opaque                                1      16h
+gitlab-gitlab-runner-secret           Opaque                                2      16h
+gitlab-gitlab-shell-host-keys         Opaque                                8      16h
+gitlab-gitlab-shell-secret            Opaque                                1      16h
+gitlab-gitlab-workhorse-secret        Opaque                                1      16h
+gitlab-nginx-ingress-token-4nx9j      kubernetes.io/service-account-token   3      16h
+gitlab-psql                           Opaque                                1      16h
+gitlab-psql-ssl                       Opaque                                3      16h
+gitlab-rail-storage                   Opaque                                1      16h
+gitlab-rails-secret                   Opaque                                1      16h
+gitlab-redis-secret                   Opaque                                1      16h
+gitlab-registry-httpsecret            Opaque                                1      16h
+gitlab-registry-secret                Opaque                                2      16h
+gitlab-test-tls                       kubernetes.io/tls                     2      16h
+registry-test-tls                     kubernetes.io/tls                     2      16h
+sh.helm.release.v1.gitlab.v1          helm.sh/release.v1                    1      16h
+%                                                                                               
+
+
+
+
+#helm
+helm list -a
+helm upgrade gitlab gitlab/gitlab --namespace test-gitlab --values
+
+# interactive DB interface
+export CLUSTER=prod-tooling
+export PROJ=hits-devops-tooling
+export DB_USER=gitlabhq_dev_owner
+export ENV=dev
+gcloud container clusters get-credentials $CLUSTER --zone us-central1-a --project $PROJ
+export DB_POD=$(kubectl get po -n devops-psql -l app=db-interface --output=jsonpath='{.items[0].metadata.name}')
+echo "POD NAME for db-interface=$DB_POD <- this should not be blank"
+kubectl exec -it -n devops-psql $DB_POD -- psql -h localhost -d postgres -U $DB_USER
+
+
+# [space][colon] means "true"
+while :; do :; sleep 1; echo 1; done

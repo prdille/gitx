@@ -1,0 +1,39 @@
+2021-08-15
+
+###############
+#### k8s ######
+###############
+
+
+
+## CHAPTER 3
+
+t-800:
+  community.kubernetes.kubectl: 
+    kubectl create -f helloworld.yaml
+    kubectl get all
+    kubectl get deployment
+    kubectl get deployment/helloworld -o yaml
+      - spec section ****
+         - might take a look at this quite a bit
+    kubectl get service
+    kubectl get service/helloworld -o yaml
+      - spec section (AGAIN)
+      
+      
+  minikube:  
+    minikube service helloworld
+      - takes "me" to the web-browser
+
+
+
+
+
+## CHAPTER 4   
+
+
+
+
+
+
+
