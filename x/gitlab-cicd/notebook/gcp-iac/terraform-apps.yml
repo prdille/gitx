@@ -1,0 +1,62 @@
+terraform_apps_components:
+  external_ips:
+    repo: git@git.umms.med.umich.edu:devops/sds-roles/terraform_apps/external_ips.git
+    supported_versions:
+      - 2.0.0
+  cross_project:
+    repo: git@git.umms.med.umich.edu:devops/sds-roles/terraform_apps/cross_project.git
+    supported_versions:
+      - 2.0.0
+  artifact_registry:
+    repo: git@git.umms.med.umich.edu:devops/sds-roles/terraform_apps/artifact_registry.git
+    supported_versions:
+      - 2.0.0
+  project_config:
+    repo: git@git.umms.med.umich.edu:devops/sds-roles/terraform_apps/project_config.git
+    supported_versions:
+      - 2.0.1
+  velero:
+    repo: git@git.umms.med.umich.edu:devops/terraform_apps/velero.git
+    supported_versions:
+      - 2.0.0
+  uptime:
+    repo: git@git.umms.med.umich.edu:devops/terraform_apps/uptime.git
+    supported_versions:
+      - 2.0.0
+  jira:
+    repo: git@git.umms.med.umich.edu:devops/terraform_apps/jira.git
+    supported_versions:
+      - 2.0.0
+  jenkins:
+    repo: git@git.umms.med.umich.edu:devops/terraform_apps/jenkins.git
+    supported_versions:
+      - 1.0.0
+  functions:
+    repo: git@git.umms.med.umich.edu:devops/sds-roles/terraform_apps/functions.git
+    supported_versions:
+      - 2.0.0
+  database:
+    repo: git@git.umms.med.umich.edu:devops/sds-roles/terraform_apps/database.git
+    supported_versions:
+      - 2.0.0
+      - 2.0.1
+  confluence:
+    repo: git@git.umms.med.umich.edu:devops/terraform_apps/confluence.git
+    supported_versions:
+      - 1.0.0
+  compute:
+    repo: git@git.umms.med.umich.edu:devops/sds-roles/terraform_apps/compute.git
+    supported_versions:
+      - 2.0.3
+  network:
+    repo: git@git.umms.med.umich.edu:devops/sds-roles/terraform_apps/network.git
+    supported_versions:
+      - 2.0.0
+  cloud_run:
+    repo: git@git.umms.med.umich.edu:devops/sds-roles/terraform_apps/cloud_run.git
+    supported_versions:
+      - 1.0.0
+  storage:
+    repo: git@git.umms.med.umich.edu:devops/sds-roles/terraform_apps/storage.git
+    supported_versions:
+      - 1.0.0

@@ -1,0 +1,42 @@
+..
+├── narwhal
+│   ├── ansible
+│   │   ├── EXA
+│   │   ├── notes
+│   │   ├── tables-images
+│   │   └── tools
+│   ├── gitlab
+│   │   ├── EXA
+│   │   ├── notes
+│   │   ├── tables-images
+│   │   └── tools
+│   ├── gke
+│   │   ├── gcp
+│   │   │   ├── EXA
+│   │   │   ├── notes
+│   │   │   ├── tables-images
+│   │   │   └── tools
+│   │   └── k8s
+│   │       ├── EXA
+│   │       ├── notes
+│   │       ├── tables-images
+│   │       └── tools
+│   ├── terraform
+│   │   ├── EXA
+│   │   ├── notes
+│   │   ├── tables-images
+│   │   └── tools
+│   └── vault
+│       ├── EXA
+│       ├── notes
+│       ├── tables-images
+│       └── tools
+└── x
+    ├── linkdn-learning
+    │   └── k8s
+    ├── m-online
+    ├── oreilly
+    ├── udemy
+    └── youtube
+
+39 directories, 0 files

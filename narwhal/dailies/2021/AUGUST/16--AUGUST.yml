@@ -1,0 +1,475 @@
+16-aug-2021
+#####################
+#### MONDAY-16 ######
+#####################
+
+0815
+
+John driving about the outage over the weekend
+
+Disabled the runner
+
+netscaler
+  billions of connections to the server
+    - getting hammered
+    
+  John:
+    config is set to default
+      "0"
+        - unlimited
+  
+  Ben:
+    "What behavior would be produced by the change if taken to it's limit"
+
+# OUTLINE
+  i: Fire-drill
+       -test gitlab ssh?
+         - figure out if that works
+           - does lb do that?
+           - is it in the code
+        
+         - Ben
+           - was able to get key/fingerprint from the host
+    
+        - "signups"
+      
+  ii: Adam in the PM
+
+# FIREDRILL
+  - Production gitlab
+  
+Scribe: markdown
+  - .md
+  
+  To redeploy would not need the DB step
+    - drop DB gitlabhq-test
+  
+
+ 
+ 
+*****
+
+- groovy side note apache language
+
+# DEV BUILD
+1100
+tooling
+  - copied from 4dca
+  - replaced 4dca with "tooling"
+  - editing vault.yml
+    - usind KEEPASS to generate random password
+    - paste that shit into 
+      - vault_psql_user_password
+      
+
+1156
+  - git commit -m '[ADD] vault.yml and vars.yml into tooling project'
+' --------------- '  
+' ---- LUNCH ---- '
+' --------------- '
+1300
+# Adam
+ - netowork
+ - storage
+ 
+ 
+ 
+*** change later
+   spi-sandbox
+   
+   gcloud container clusters create tmpcluster --workload-pool=hits-devops-tooling.svc.id.goog --zone=us-central1-a --network um-default --subnetwork um-default-us-central1
+ 
+
+15:30
+
+######################
+#### TUESDAY-17 ######
+######################
+Target:
+  - Standup gitlab instance
+Actual:
+  - Tooling project deployed to GKE
+  - Dev instance created
+    - psql
+  - ran accesories playbook
+Obstacles:
+  - not set up gitlab-dev-app
+    - helm
+  - deployed helm chart at v 4.6.7 which corresponds to on-premise instance
+Next Step:
+  - helm_values.yml
+    - variablize
+      - to:
+        - gitlab-dev
+      
+08:30
+- The-Mob_part-I
+  Driver: li
+  Scribe: paul
+  
+- crimin & variablizin 08:55
+
+#templates
+- gcp-iac/templates/gitlab/gitlab-values.yml.j2
+  #project
+    - gcp-iac/apps/gitlab/test
+       gitlab_domain: {{ app.med.umich.edu }}
+    - gcp-iac/apps/gitlab/dev
+    
+```
+gitlab_external_ip: "34.123.206.212"
+gitlab_psql_host: "34.133.78.153"
+gitlab_domain: "app.med.umich.edu"
+gitlab_cert_manager_email: "HITS-Software-Delivery-Development-Services@umich.edu"
+```
+09:15
+- create new SSL certs for dev project
+  for psql connections
+
+  
+updated test
+  values.yml
+  vault.yml
+10:00
+git add [dev][vars & vault]
+git commit -m "[IMP] that shit"
+Target Condition:
+  - Deploy gitlab dev environment
+Actual Condition:
+  - values.yml that is variablized 
+  - set up the variables for dev and test
+  - learned a lot about what manually
+    - postgress certs and keys
+    - service account.json for gitlab rails secret
+    - psgl external ip address
+    - ip address associated with the gitlab env we are interested in 
+      - gitlab-dev
+      - gitlab-test
+Obstacles:
+  - Deploy gitlab instance
+
+Next Steps:
+  - Deploy gitlab with ansible playbook gitlab.yml in command line
+  
+10:30
+Mob_part-II 
+- binary auth addition and commit and conan
+ 
+AC:
+  - green checks
+  - helm chart referencing gitlab 13.6.7 (onprem)
+  - differetn image for the ingress controller
+    - all the ingresses are there
+    -DNS not set up
+    
+Obstacles:
+  - dns has to match ip adress for 
+  - registry-dev
+  
+  dns playbook
+    edits 
+    
+11:00
+Mob_part-III
+DNS-PLAYBOOK:
+- infra-as-code:
+  - dns.yml
+
+# adding the ip address which was produced
+# grab ip address from google console
+
+AC:
+gitlab-dev.app.med.umich.edu
+  - cert not in yet
+  - but up and up
+  # no setup of auth yet
+  # get the password for "root" user
+    [chestnut]
+      - kubectl get secret -n dev-gitlab gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo
+  
+11:31
+AC:
+  target-condtion achieved!
+  - Deploy gitlab dev environment
+
+
+new targets()?):
+  level-1 access
+  group sync
+  restore a backup
+  upgrade
+  
+' --------------- '  
+' ---- LUNCH ---- '
+' --------------- '  
+13:00
+# Adam joins again
+- Upgradin?
+- loign to gitlab-dev
+TC:
+  Update gitlab to v 14.1.2
+AC:
+  13.6.7 
+OBS:
+  - update the helm version and apply it [HOPE]
+NS:
+  - try that upgrade
+  
+14:30
+destroy for loop shell code
+
+helm install
+helm list
+helm upgrade hopes high
+
+gitlab.yml again
+TC:
+  - upgrade gitlab via helm upgrade
+AC:
+
+helm upgrade gitlab giltab/gitlab -n gev-gitlab\
+--version 5.1.2 \
+-f gitlabs-values.yaml \
+--set gitlab.migrations.enabled=true
+
+timed out waiting for condition
+
+OBS:
+  - timeout setting to allow help upgrade
+
+########################
+#### WEDNESDAY-18 ######
+########################
+0815
+
+Devops Collab
+
+
+tc: walk through a gitlab upgrade
+ac: deploy gitlab at will
+exp: 
+obs: 
+  clear out current instance of gitlab
+  Helm upgrade and why git lab test runner did not run in the helm install world 
+  
+
+
+
+#######################
+#### THURSDAY-19 ######
+#######################
+
+
+helm as a template engine
+  - helm adds some metadata inside the k8s cluster to help with that
+
+
+
+the mob
+(george)
+  - anti-isolation
+  - 
+  
+  
+09:15
+TC: upgrade gitlab and make sure it's done all goodly
+AC: 
+  - changed domain name to narwhalsong.org
+  - read dem docs
+NS: upgrade
+
+Helm
+  understand helm better
+  
+  4.6.7 in a clean cluster
+  
+  5.1.3
+  
+
+
+'SCRIVIN'
+[FRESH]y-fresh
+- deploy via helm
+- t-800:
+  $: ansible-playbook gitlab.yml
+  
+# still no runner test
+  # perhaps it's templated to the manifest but not the helm install
+ 
+ #VERSION MAPPING OF GITLAB AND HELM
+ # docs.gitlab.com/charts/installation/version_mapping.html 
+AC: 
+ - 4.6.7
+OBS:
+ - 4.12.x
+ 
+helm upgrade gitlab gitlab/gitlab --namespace dev-gitlab --values /tmp/gitlab.values.yml --version 4.12.10
+
+why the hop upgrade?
+  - gitlab docs for k8s specify this hop
+
+
+AC:
+  - more timeout errors
+  - cert manager issues
+  
+helm uninstall gitlab -n dev-gitlab
+
+assumption upgrade failure
+
+in common cert
+
+
+omnibus
+  - will need common certs anyway
+  
+10:50
+destroying
+
+redeploying
+
+
+11:40
+
+understanding the upgrade peices of helm 
+
+the upgrade hook
+
+New deployment
+  - new test cluster
+
+  - new dev tools cluster
+
+cert manager issues
+  - hopefully new cluster will not have that issues
+  
+make a new 
+
+NS:
+  deploy gitlab-dev it to dev cluster
+
+' --------------- '  
+' ---- LUNCH ---- '
+' --------------- '
+13:10
+TC:
+  Succeully run a helm-upgrade on our gitlab-dev deployment v. 4.6.7 -> 4.12.10 -> 5.1.3 == gitlab v. 14.1.3
+AC:
+  New dev cluster created. 
+OBST:
+  Old data to be purged
+  New cluster to prove itself via trial
+NS:
+  deploy new dev on new cluster
+  helm upgrade to 4.12.10
+  helm upgrade to 5.1.3
+HYP:
+  certificate management issue will cease on new cluster with less baggage
+
+14:25
+AC: 
+  deployed with test-runner
+
+15:00
+in common cert
+need to create some secrets
+certificates vault
+  - other terminal
+    - certificates repo
+    
+15:15 
+gitlab documentation for k8s intsallation
+
+git-drama
+  - helm not utilized correctly
+  did not do a helm install
+  
+
+#####################
+#### FRIDAY-20 ######
+#####################
+
+TC:
+
+AC: 
+helm upgrade gitlab gitlab/gitlab --namespace test-gitlab --values /tmp/gitlab.values.yml --version 4.12.10 --debug
+
+
+access the public ip address
+
+helm left something in the cluster and we couldn't get rid of it
+
+delete and redeploy going 
+
+
+
+
+10:30 - Target Condition acheived!
+
+ 
+
+10:45
+- loggin in as the msis user
+- package registires that eexist locally
+  - sync over to the other instance in some way
+  
+Utilize 
+- migrate from omnibus
+  - git.umms currently on the linux package
+    - v 13
+  - would need to start from scratch
+  - 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+ 
+ 

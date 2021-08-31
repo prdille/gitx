@@ -1,0 +1,33 @@
+# verison is the tag at which to clone the repo during a formidable play
+# version takes a commit, tag, or branch
+product_bootstrap_components:
+  - cohort:
+    - name: cross_project
+      version: 2.0.0
+
+product_components:
+  - cohort:
+    - name: project_config
+      version: 2.0.1
+  - cohort:
+    - name: storage
+      version: 1.0.1
+    - name: functions
+      version: 2.0.0
+    - name: external_ips
+      version: 2.0.0
+    - name: artifact_registry
+      version: 2.0.0
+  - cohort:
+    - name: network
+      version: 2.0.0
+  - cohort:
+    - name: compute
+      version: 2.0.3
+    - name: database
+      version: 2.0.1
+
+product_accessories:
+  - cohort:
+    - name: db_interface
+      version: alpha

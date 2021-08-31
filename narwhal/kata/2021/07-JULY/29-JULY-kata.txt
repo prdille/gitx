@@ -1,0 +1,30 @@
+## Story Board Template ##
+
+29-JULY-2021
+
+
+Focus Process:
+Challenge:
+  Target Condition:
+    - Become a SME in GKE
+      - Google Cloud
+      - Kubernetes
+
+  Current Condition:
+    - Participating the mob
+      - shadowing
+      - driving
+    - Puppet-level participation
+
+
+    - Kubernetes class started in linden learning
+
+
+  Experimenting Record:
+  
+
+
+
+  Obstacles Parking Lot:
+
+

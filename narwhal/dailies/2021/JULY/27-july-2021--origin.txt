@@ -1,0 +1,28 @@
+27-JULY-2021
+
+  - sudoers
+  - setup
+  
+
+
+devops_workstation
+```
+error: key does not contain a section: pdille
+error: key does not contain a section: name
+error: key does not contain a section: email
+error: key does not contain a section: pdille
+error: key does not contain a section: name
+error: key does not contain a section: email
+==> Next steps:
+- Run `brew help` to get started
+- Further documentation: 
+```
+
+minikube-setup
+
+
+Something from Shanelle
+
+
+
+
