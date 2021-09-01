@@ -1,18 +1,6 @@
 ---
 - ansible.chestnuts:
-
-# This is called a mark
-'#' is part ot the ansible code which is python code
-
-
-# BEGIN gitlab_chart_version
-gitlab_chart_version: 5.1.1
-# END gitlab_chart_version
-
-
-# gcp-iac #
-# concept #
-web-doc:
-  https://git.umms.med.umich.edu/devops/gcp-iac/-/tree/master/docs/Concepts
   
-  adorack
+# vault.yml edit  
+ansible-vault edit customer_products/devops/tools/hits-devops-tools-prod-4dca/vault.yml
+

@@ -1,15 +1,4 @@
-for i in $(k get -n $ENV-gitlab Orders -o jsonpath='{..metadata.name}'); do echo $i;k delete -n $ENV-gitlab Orders $i; done;
-for i in $(k get -n $ENV-gitlab Challenges -o jsonpath='{..metadata.name}'); do echo $i;k delete -n $ENV-gitlab Challenges $i; done;
-kubectl delete -f gitlab_manifest.yml && kubectl delete -n $ENV-gitlab -f gitlab_manifest.yml && kubectl delete ns $ENV-gitlab;
-
-
-
-
-
-
-
-
-
+#!/tree/of/woe
 
 export ENV=dev
 

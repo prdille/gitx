@@ -1,30 +1,94 @@
 30-aug-2021
 #####################
-#### MONDAY-23 ######
+#### MONDAY-30 ######
 #####################
 
 
 
+AC: @med search
+  6 total valid user accounts
+  
+  194 total 'old'
+  
 
-#####################
-#### TUESDAY-24 ######
-#####################
+Test firewall rule
+fishey-crucibal 
+ist s in our googlce cloud
+sitos on netscaler that's being decommed
+goal is to migrate to a new netscaler that is managed by our team .
+
+vm netscaler
+  hardware is managed by the networking team
+  ns-sds.med.umich.edu
+  
+  
+  k exec -n hits-prod hits-prod-0 -ti -- .bin/bash
+  
+  $ curl -Ik https://141.214.16.95/codereview/
+  $ETC
+  
+  
+SCRIVIN DIRTY:
+TC: 
+  
+AC:
+
+NS:
+- Insert the med umich emails into the emails table
+  - Red the list
+  - if valid, add email to emails table
+-Replace email on user table 
+  - remove "@med" (from email or entire email?)
+  - establish "@umich.edu"
+
+### Digression
+### Carlyn Evans
+
+idm.med.umich.edu
+  - user slef service
+    - enter prompts
+    
+###
+###
+
+10:00
+NS:
+  - Uncomment the code 
+  
+    - tasks:
+      - Insert @med emails into email table
+      - update user table with @umich email
+      
+AC: Broad list is working in the two queries
+
+NS: modify the SELECT to add the valid users in the WHERE clause
+#############
+### Lunch ###
+#############
+
+13:30
+TC: gitlab is migrated to level 1 auth
+AC:
+  
+######################
+#### TUESDAY-31 ######
+######################
 
 
-#####################
-#### WEDNESDAY-25 ######
-#####################
+########################
+#### WEDNESDAY-01 ######
+#######################
   
  
 
-#####################
-#### THURSDAY-26 ######
-#####################
+#######################
+#### THURSDAY-02 ######
+#######################
 
 
   
 #####################
-#### FRIDAY-27 ######
+#### FRIDAY-03 ######
 #####################
 
 

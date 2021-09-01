@@ -1,0 +1,72 @@
+---
+- hosts: localhost
+  gather_facts: false
+  name: Manage Level-1 groups in gitlab
+  vars:
+    umich_api_base_url: https://apigw.it.umich.edu/um
+    umich_api_endpoint: /inst/oauth2/token 
+    oauth_client_id: 9ec497a0-4cc0-4abe-abdf-7b4aa31c1f73
+    umich_api_grant_type: client_credentials
+    umich_api_scope: iamgroups
+    level1_group_name: hits-software-delivery-development-services
+  vars_prompt:
+    - name: oauth_client_secret
+      prompt: secret?
+      private: true
+  
+  tasks:
+   # - name: Ensure required vars are defined
+   #   ansible.builtin.assert:
+   #     that:
+   #       - customer is defined
+   #       - curr_env is defined
+   #       - product_instance is defined
+   #       - project_id is defined
+  
+    - name: Authenticate to api.umich.edu
+      ansible.builtin.uri:
+        url: "{{ umich_api_base_url + umich_api_endpoint }}"
+        method: POST
+        headers:
+          accept: application/json
+        body_format: form-urlencoded
+        body:
+          grant_type: "{{ umich_api_grant_type }}"
+          client_id: "{{ oauth_client_id }}"
+          client_secret: "{{ oauth_client_secret }}"
+          scope: "{{ umich_api_scope }}"
+      register: oauth_response
+  
+    - name: Check valid group name
+      ansible.builtin.uri:
+        url: "{{ umich_api_base_url }}/iamGroups/isValidName/HITS-EI-UNIX-woe"
+        method: GET
+        headers:
+          accept: application/json
+          authorization: Bearer {{ oauth_response['json']['access_token'] }}
+          x-ibm-client-id: "{{ oauth_client_id }}"
+      register: is_valid_group
+    
+    - name: Find group name
+      ansible.builtin.uri:
+        url: "{{ umich_api_base_url }}/iamGroups/find/group/{{ level1_group_name }}"
+        method: GET
+        headers:
+          accept: application/json
+          authorization: Bearer {{ oauth_response['json']['access_token'] }}
+          x-ibm-client-id: "{{ oauth_client_id }}"
+      register: group_search
+
+    - name: Get group membership
+      ansible.builtin.uri:
+        url: "{{ umich_api_base_url }}/iamGroups/members/{{ group_search['json']['group'][0]['dn'] | urlencode }}" # CAREFUL: hard coded to first-found group
+        method: GET
+        headers:
+          accept: application/json
+          authorization: Bearer {{ oauth_response['json']['access_token'] }}
+          x-ibm-client-id: "{{ oauth_client_id }}"
+      register: group_members
+
+    - name: debug the thing
+      ansible.builtin.debug: 
+        var: group_members

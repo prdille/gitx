@@ -3,7 +3,9 @@
 #get a password
 kubectl get secret -n dev-gitlab gitlab-gitlab-initial-root-password -ojsonpath='{.data.password}' | base64 --decode ; echo
 
-
+# kubeconfig?
+kubeconfig
+  creates the ability to connect to a cluster
 
 
 # run a command...
@@ -41,3 +43,10 @@ kubectl exec -it -n devops-psql $DB_POD -- psql -h localhost -d postgres -U tool
  --cert=/tmp/gitlab-test.app.med.umich.edu.crt \
  --key=/tmp/gitlab-test.app.med.umich.edu.key \
  --namespace=test-gitlab
+ 
+ 
+workloads (more of a ui thing)
+  - various ways to run pods
+  - some form of group pods together
+  - types of doing work in k8s
+    - smallest unit of work in k8s is a pod

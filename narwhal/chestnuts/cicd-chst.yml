@@ -19,3 +19,31 @@ playbook:
 - ansible-playbook local-filregistry-test.app.med.umich.edu-e certmgr_dest_dir='/tmp' --vault-password-file=drive
 
 
+Test Driven Development:
+write test
+  - failing test
+  - write code to make the test succeed
+
+---((John 11-AUG-2021))
+  rather than break the code first
+  break the test first
+  test is your obstacle
+  clearly defined obstacle....you can write code that can clr]early run the algorithm you want to run
+
+    what you would like something to happen
+      how to make that happen
+
+      - might
+
+      - writing the test first what you want to have happen
+-----
+
+# playbooks I have run
+accessories.yml
+bootstrap_product_instance.yml
+deploy-jenkins.yml
+gitlab.yml
+product_vars.yml
+psql_db.yml
+gitlab_level1_email.yml
+
