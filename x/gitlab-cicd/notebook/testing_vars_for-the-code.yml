@@ -1,0 +1,58 @@
+umich_api_base_url: https://apigw.it.umich.edu/um
+umich_api_token_endpoint: /inst/oauth2/token 
+oauth_client_id: 9ec497a0-4cc0-4abe-abdf-7b4aa31c1f73
+oauth_client_secret: "{{ vault_oauth_client_secret }}"
+umich_api_grant_type: client_credentials
+umich_api_scope: iamgroups
+umich_groups:
+  hits-devops:
+    preexisting: true
+  temp-group-for-hits-devops:
+    preexisting: false
+    owner_dn:
+      - "uid=sboluyt,ou=people,dc=umich,dc=edu"
+      - "uid=jonawils,ou=people,dc=umich,dc=edu"
+      - "uid=mjohnw,ou=people,dc=umich,dc=edu"
+    dn: "cn=temp-group-for-hits-devops,ou=User Groups,ou=Groups,dc=umich,dc=edu" 
+    member_dn:
+      - "uid=sboluyt,ou=people,dc=umich,dc=edu"
+      - "uid=jonawils,ou=people,dc=umich,dc=edu"
+      - "uid=mjohnw,ou=people,dc=umich,dc=edu"
+      - "uid=bbalk,ou=people,dc=umich,dc=edu"
+      - "uid=blackmor,ou=people,dc=umich,dc=edu"
+      - "uid=liguo,ou=people,dc=umich,dc=edu"
+      - "uid=pdille,ou=people,dc=umich,dc=edu"
+      - "uid=thurberm,ou=people,dc=umich,dc=edu"
+  temp-group-for-hits-devops2:
+    preexisting: false
+    owner_dn:
+      - "uid=sboluyt,ou=people,dc=umich,dc=edu"
+      - "uid=jonawils,ou=people,dc=umich,dc=edu"
+      - "uid=mjohnw,ou=people,dc=umich,dc=edu"
+    dn: "cn=temp-group-for-hits-devops,ou=User Groups,ou=Groups,dc=umich,dc=edu" 
+    member_dn:
+      - "uid=sboluyt,ou=people,dc=umich,dc=edu"
+      - "uid=jonawils,ou=people,dc=umich,dc=edu"
+      - "uid=mjohnw,ou=people,dc=umich,dc=edu"
+      - "uid=bbalk,ou=people,dc=umich,dc=edu"
+      - "uid=blackmor,ou=people,dc=umich,dc=edu"
+      - "uid=liguo,ou=people,dc=umich,dc=edu"
+      - "uid=pdille,ou=people,dc=umich,dc=edu"
+      - "uid=thurberm,ou=people,dc=umich,dc=edu"
+  hits-software-delivery-development-services:
+    preexisting: false
+    owner_dn:
+      - "uid=sboluyt,ou=people,dc=umich,dc=edu"
+      - "uid=jonawils,ou=people,dc=umich,dc=edu"
+      - "uid=mjohnw,ou=people,dc=umich,dc=edu"
+      - "uid=liguo,ou=people,dc=umich,dc=edu"
+    dn: "cn=HITS-Software-Delivery-Development-Services,ou=User Groups,ou=Groups,dc=umich,dc=edu" 
+    member_dn:
+      - "uid=sboluyt,ou=people,dc=umich,dc=edu"
+      - "uid=jonawils,ou=people,dc=umich,dc=edu"
+      - "uid=mjohnw,ou=people,dc=umich,dc=edu"
+      - "uid=bbalk,ou=people,dc=umich,dc=edu"
+      - "uid=blackmor,ou=people,dc=umich,dc=edu"
+      - "uid=liguo,ou=people,dc=umich,dc=edu"
+      - "uid=pdille,ou=people,dc=umich,dc=edu"
+      - "uid=thurberm,ou=people,dc=umich,dc=edu"

@@ -1,0 +1,22 @@
+    - name: Get list of groups with member updates (step 1 of 2)
+      ansible.builtin.set_fact:
+        groups_to_update_members: "{{ groups_to_update_members + [item.groupsearch.umichgroups.key] }}"
+      when: 
+        - item.skipped is not defined # the group exists
+        - not umich_groups[item.groupsearch.umichgroups.key]['preexisting']
+        - item['json']['group']['memberDn'] != None # there is a memberlist
+        - (item['json']['group']['memberDn'] | symmetric_difference(umich_groups[item.groupsearch.umichgroups.key]['member_dn'])| length ) != 0
+      loop: "{{ group_members.results }}"
+      loop_control:
+        label: "{{ item.groupsearch.umichgroups.key }}"
+
+    - name: Get list of groups with member updates (step 2 of 2)
+      ansible.builtin.set_fact:
+        groups_to_update_members: "{{ groups_to_update_members + [item.groupsearch.umichgroups.key] }}"
+      when: 
+        - item.skipped is not defined # the group exists
+        - not umich_groups[item.groupsearch.umichgroups.key]['preexisting']
+        - item['json']['group']['memberDn'] == None # empty memberlist
+      loop: "{{ group_members.results }}"
+      loop_control:
+        label: "{{ item.groupsearch.umichgroups.key }}"

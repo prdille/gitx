@@ -1,0 +1,168 @@
+---
+- hosts: localhost
+  gather_facts: false
+  name: Manage Level-1 groups in gitlab
+  vars:
+    level1_group_name: hits-software-delivery-development-services
+    groups_to_create: []
+    missing_preexisting_groups: []
+    groups_to_update_owners: []
+    groups_to_update_members: []
+  
+  tasks:
+   # - name: Ensure required vars are defined
+   #   ansible.builtin.assert:
+   #     that:
+   #       - customer is defined
+   #       - curr_env is defined
+   #       - product_instance is defined
+   #       - project_id is defined
+    - name: Include app-specific vars
+      include_vars:
+        dir: apps/umich_api
+        extensions:
+          - yml 
+
+    - name: Authenticate to api.umich.edu
+      ansible.builtin.uri:
+        url: "{{ umich_api_base_url + umich_api_token_endpoint }}"
+        method: POST
+        headers:
+          accept: application/json
+        body_format: form-urlencoded
+        body:
+          grant_type: "{{ umich_api_grant_type }}"
+          client_id: "{{ oauth_client_id }}"
+          client_secret: "{{ oauth_client_secret }}"
+          scope: "{{ umich_api_scope }}"
+      register: oauth_response
+  
+    - name: Check valid group name
+      ansible.builtin.uri:
+        url: "{{ umich_api_base_url }}/iamGroups/isValidName/HITS-EI-UNIX-woe"
+        method: GET
+        headers:
+          accept: application/json
+          authorization: Bearer {{ oauth_response['json']['access_token'] }}
+          x-ibm-client-id: "{{ oauth_client_id }}"
+      register: is_valid_group
+    
+    - name: Find group name
+      ansible.builtin.uri:
+        url: "{{ umich_api_base_url }}/iamGroups/find/group/{{ umichgroups.key }}"
+        method: GET
+        headers:
+          accept: application/json
+          authorization: Bearer {{ oauth_response['json']['access_token'] }}
+          x-ibm-client-id: "{{ oauth_client_id }}"
+      register: group_finds
+      loop: "{{ umich_groups | dict2items }}"
+      loop_control:
+        label: "{{ umichgroups.key }}"
+        loop_var: umichgroups # group_finds register now contains umichgroups to use in future loops
+
+    - ansible.builtin.debug:
+        var: group_finds.results
+
+    - name: Get group membership
+      ansible.builtin.uri:
+        url: "{{ umich_api_base_url }}/iamGroups/members/{{ groupsearch['json']['group'][0]['dn'] | urlencode }}" # CAREFUL: hard coded to first-found group
+        method: GET
+        headers:
+          accept: application/json
+          authorization: Bearer {{ oauth_response['json']['access_token'] }}
+          x-ibm-client-id: "{{ oauth_client_id }}"
+      register: group_members
+      loop: "{{ group_finds.results }}"
+      when: 
+        - (groupsearch['json']['group'] | length) == 1
+      loop_control:
+        label: "{{ groupsearch.umichgroups.key }}"
+        loop_var: groupsearch # group_members register now contains groupsearch, which includes a umichgroups dict from previous loop
+
+    - ansible.builtin.debug:
+        var: group_members.results
+
+    - name: Get list of groups to create
+      ansible.builtin.set_fact:
+        groups_to_create: "{{ groups_to_create + [item.groupsearch.umichgroups.key] }}"
+      when: 
+        - item.skipped is defined
+        - item.skipped | bool # the group does not exist
+        - not item.groupsearch.umichgroups.value.preexisting
+      loop: "{{ group_members.results }}"
+      loop_control:
+        label: "{{ item.groupsearch.umichgroups.key }}"
+
+    - name: Get list of missing preexisting groups
+      ansible.builtin.set_fact:
+        missing_preexisting_groups: "{{ missing_preexisting_groups + [item.groupsearch.umichgroups.key] }}"
+      when: 
+        - item.skipped is defined
+        - item.skipped | bool # The group does not exist
+        - item.groupsearch.umichgroups.value.preexisting
+      loop: "{{ group_members.results }}"
+      loop_control:
+        label: "{{ item.groupsearch.umichgroups.key }}"
+
+    - name: Get list of groups with owner updates
+      ansible.builtin.set_fact:
+        groups_to_update_owners: "{{ groups_to_update_owners + [item.groupsearch.umichgroups.key] }}"
+      when: 
+        - item.skipped is not defined # the group exists
+        - (item['groupsearch']['json']['group'][0]['ownerDn'] | symmetric_difference(umich_groups[item.groupsearch.umichgroups.key]['owner_dn'])| length ) != 0
+      loop: "{{ group_members.results }}"
+      loop_control:
+        label: "{{ item.groupsearch.umichgroups.key }}"
+        
+    - name: Get list of groups with member updates (step 1 of 2)
+      ansible.builtin.set_fact:
+        groups_to_update_members: "{{ groups_to_update_members + [item.groupsearch.umichgroups.key] }}"
+      when: 
+        - item.skipped is not defined # the group exists
+        - item['json']['group']['memberDn'] != None # there is a memberlist
+        - (item['json']['group']['memberDn'] | symmetric_difference(umich_groups[item.groupsearch.umichgroups.key]['member_dn'])| length ) != 0
+      loop: "{{ group_members.results }}"
+      loop_control:
+        label: "{{ item.groupsearch.umichgroups.key }}"
+
+    - name: Get list of groups with member updates (step 2 of 2)
+      ansible.builtin.set_fact:
+        groups_to_update_members: "{{ groups_to_update_members + [item.groupsearch.umichgroups.key] }}"
+      when: 
+        - item.skipped is not defined # the group exists
+        - item['json']['group']['memberDn'] == None # empty memberlist
+      loop: "{{ group_members.results }}"
+      loop_control:
+        label: "{{ item.groupsearch.umichgroups.key }}"
+
+    - name: Update owners/members with groups that will be created
+      ansible.builtin.set_fact:
+        groups_to_update_owners: "{{ groups_to_update_owners + groups_to_create }}"
+        groups_to_update_members: "{{ groups_to_update_members + groups_to_create }}"
+
+    - ansible.builtin.debug:
+        var: "{{ item }}"
+      loop:
+        - missing_preexisting_groups
+        - groups_to_create
+        - groups_to_update_owners
+        - groups_to_update_members
+        
+
+    - name: Create Any needed groups
+      ansible.builtin.uri:
+        url: "{{ umich_api_base_url }}/iamGroups/create"
+        method: POST
+        headers:
+          accept: application/json
+          authorization: Bearer {{ oauth_response['json']['access_token'] }}
+          x-ibm-client-id: "{{ oauth_client_id }}"
+        body_format: json
+        body:
+          name: "{{ item }}"
+      register: group_create
+      loop: "{{ groups_to_create }}"
+    - name: debug creation
+      ansible.builtin.debug:
+        var: group_create
