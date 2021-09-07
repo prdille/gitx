@@ -13,7 +13,19 @@ kube-system       Active   22h
 test-gitlab       Active   16h
 %                                                                                                                                                                             
 
+# Open terminal on the cluster
+export CLUSTER=dev-tooling
+export PROJECT_ID=hits-devops-tooling
+gcloud container clusters get-credentials $CLUSTER --zone us-central1-a --project=$PROJECT
 
+kubectl exec -it -n dev-gitlab gitlab-task-runner-*[tab]* -- /bin/bash
+
+$ gitlab-rails console -e production
+configy-stuff
+
+#rails code on doc
+  # https://docs.gitlab.com/12.10/ee/administration/auth/ldap-troubleshooting.html#sync-one-group-starter-only
+  
 
 
 #k8s

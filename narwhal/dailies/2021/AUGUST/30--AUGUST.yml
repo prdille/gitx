@@ -73,25 +73,211 @@ AC:
 ######################
 #### TUESDAY-31 ######
 ######################
+DRIVIN: 
+  - SDS-4042:
+    - Groups API
+      - options
+        - python, ansible, curl with bash, 
+        - python would interact with the api very well
+          architect out our 
+            -
+            - methods
+            - 
+get oauth token
+tasks
+ - get oauth token
+ -  groups API action
+    - post
+    - get
+    - put
+    - etc
 
+gtan_typ
+scope
 
+TC: manage groups via ansible
+AC: began coding
+OBS:
+  authenticate with oauth
+  
+  
+
+ 11:00
+#############
+### Lunch ###
+#############
+ 
+ 
+  
 ########################
 #### WEDNESDAY-01 ######
 #######################
-  
+
+adding group memebers and owners
  
+web ui is calling a backend api
+does a lot of the same thing
+a web request was genertated with a payload with keys and values taht we will be able to produce
+
+
+
+
+
+tc: crete and manage level 1 groups to meet our needs for gitlab
+ac: some working code
+last step:
+  working on the ownership portion of this
+  expect:
+    
+ns: update the membership
+  copying the tasks
+  hopeful for painless
+  
+  
+  added sub-group
+   - group_member_dn: []
+  to the app scpefic (umich_api) vars.yml 
+  
+  added new play to update subgroup {{ group_member_dn }} membership 
+  
+Added blocks 
+
+14:30
+TC: acheived
+* management acheieved today 
+have expected state
+  - code will make it so
+
+15:30
+gitlab-dev.app.med.umich.edu
+ldap-sync
+
+
+
+
 
 #######################
 #### THURSDAY-02 ######
 #######################
 
+gl = gitlab.Gitlab('http://10.0.0.1', private_token='JVNSESs8EwWRx5yDxM5q')
 
+abandonded api 
+
+DB process
+interactive db
+\d
+member
+ldap_group_links
+\d ldap_group_links
+
+
+kubectl exec -it -n dev-gitlab gitlab-task-runner-***-* -- /bin/bash
+gitlab-rails console -e production
+#rails code on doc
+  # https://docs.gitlab.com/12.10/ee/administration/auth/ldap-troubleshooting.html#sync-one-group-starter-only
   
 #####################
 #### FRIDAY-03 ######
 #####################
+certificate project
+
+export COMMON_NAME=gitlab-dev.app.med.umich.edu
+
+ansible-playbook local-files.yml -e common_name=${COMMON_NAME} -e certmgr_dest_dir='/tmp' --vault-password-file=driver
+
+
+ansible-playbook csr.yml --vault-password-file=driver -e common_name=${COMMON_NAME} && \                                         ansible-playbook csr.yml --vault-password-file=driver -e common_name=${COMMON_NAME} && \iver -e common_name=${COMMON_NAME} && \
+ansible-playbook enroll.yml --vault-password-file=driver -e common_name=${COMMON_NAME} && \
+ansible-playbook collect.yml --vault-password-file=driver -e common_name=${COMMON_NAME}
+
+export ENV=dev
+kubectl create namespace $ENV-gitlab
+kubectl create secret tls gitlab-$ENV-tls \
+  --cert=/tmp/gitlab-$ENV.app.med.umich.edu.crt \
+  --key=/tmp/gitlab-$ENV.app.med.umich.edu.key \
+  --namespace=$ENV-gitlab
+Error from server (AlreadyExists): namespaces "dev-gitlab" already exists
+Error from server (AlreadyExists): secrets "gitlab-dev-tls" already exists
+
+
+
+kubectl delete secret -n dev-gitlab gitlab-dev-tls 
+  # secret "gitlab-dev-tls" deleted
+%                                                                                                                        
+kubectl delete secret -n devexport ENV=dev                                    
+kubectl create namespace $ENV-gitlab
+kubectl create secret tls gitlab-$ENV-tls \
+  --cert=/tmp/gitlab-$ENV.app.med.umich.edu.crt \
+  --key=/tmp/gitlab-$ENV.app.med.umich.edu.key \
+  --namespace=$ENV-gitlab
+  # Error from server (AlreadyExists): namespaces "dev-gitlab" already exists
+  # secret/gitlab-dev-tls created
+%            
+
+
+gcp-iac
+ansible-playbook gitlab.yml ...       
+
+export PROJ=hits-devops-tooling
+export DB_USER=gitlabhq_dev_owner
+export ENV=dev
+gcloud container clusters get-credentials $CLUSTER --zone us-central1-a --project $PROJ
+export DB_POD=$(kubectl get po -n devops-psql -l app=db-interface --output=jsonpath='{.items[0].metadata.name}')
+echo "POD NAME for db-interface=$DB_POD <- this should not be blank"
+kubectl exec -it -n devops-psql $DB_POD -- psql -h localhost -d gitlabhq_dev -U $DB_USER
+  ####
+  ####
+  #  Fetching cluster endpoint and auth data.
+  #  kubeconfig entry generated for prod-tooling.
+  #  POD NAME for db-interface=db-interface-69f65dc475-8jx8b <- this should not be blank
+  #  Defaulting container name to postgres.
+  #  Use 'kubectl describe pod/db-interface-69f65dc475-8jx8b -n devops-psql' to see all of the containers in this pod.
+  #  Password for user gitlabhq_dev_owner: 
+  #  psql (13.3 (Debian 13.3-1.pgdg100+1))
+  #  Type "help" for help.
+
+gitlabhq_dev=> select user_id,source_id from members where ldap=true
+  #####
+  #####
+   user_id | source_id 
+---------+-----------
+      55 |        41
+      19 |        41
+     102 |        54
+     126 |       140
+      32 |        62
+      32 |        67
+      75 |        79
+     555 |       662
+      86 |       138
+      98 |       140
+      95 |      
+      
+  #####
+  #####
+
+gitlabhq_dev=> \d identitiesdentities 
+gitlabhq_dev=> SELECT * from members where user_id is in (SELECT user_id from identities where provider='ldapmain') and ldap=Tru;
+
+gitlabhq_dev=> \d identities
+
+gitlabhq_dev=> SELECT *udentities Chere proviuser_id=224;d
+               UPDATE identities set provider='ldapmain' where id=839;
+gitlabhq_dev=> SELECT user_id from identities where provider='ldapmain';
+
+SELECT * from members where user_id in (SELECT user_id from identities where provider='ldapmain');and ldap=True;
+DELETE from .. ""
 
 
 
 
 
+to make idompemntas
+once it is populated, we don't want to add another one
+
+
+
+gitlabhq_dev=> SELECT id as user_id, 'uid='|| username|| ',ou=people,dc=umich,dc=edu' as extern_uid, email from users where email like '%@umich.edu';
+
+SELECT id as user_id, 'uid='|| username|| ',ou=people,dc=umich,dc=edu' as extern_uid, 'ldapumich' as provider from users where email like '%@umich.edu' and user_id no in (SELECT user_id from identities where provider='ldpaumich');
