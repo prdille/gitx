@@ -1,0 +1,55 @@
+06-SEPT-2021
+######################
+#### MON-06 ######
+######################
+
+ 
+#############
+### Lunch ###
+#############
+
+TASK [read project-specific vars] *****************************************************************************************************************************************************************************************************************************************************
+fatal: [localhost]: FAILED! => {"ansible_facts": {}, "ansible_included_var_files": [], "changed": false, "message": "Could not find or access 'customer_products/devops/personal/hits-devops-backups-03e3/vars.yml'\nSearched in:\n\t/Users/pdille/git/devops/gcp-iac/vars/customer_products/devops/personal/hits-devops-backups-03e3/vars.yml\n\t/Users/pdille/git/devops/gcp-iac/customer_products/devops/personal/hits-devops-backups-03e3/vars.yml\n\t/Users/pdille/git/devops/gcp-iac/vars/customer_products/devops/personal/hits-devops-backups-03e3/vars.yml\n\t/Users/pdille/git/devops/gcp-iac/customer_products/devops/personal/hits-devops-backups-03e3/vars.yml on the Ansible Controller.\nIf you are using a module and expect the file to exist on the remote, see the remote_src option"}
+
+PLAY RECAP ****************************************************************************************************************************************************************************************************************************************************************************
+localhost                  : ok=2    changed=0    unreachable=0    failed=1    skipped=0    rescued=0    ignored=0   
+
+gcloud config get-value project
+hits-devops-backups-03e3
+
+######################
+#### TUE-07 ######
+######################
+
+
+#############
+### Lunch ###
+#############
+
+
+######################
+#### WED-08 ######
+######################
+
+
+#############
+### Lunch ###
+#############
+
+
+######################
+#### THU-09 ######
+######################
+
+
+#############
+### Lunch ###
+#############
+
+
+######################
+#### TUE-31 ######
+######################
+
+
+

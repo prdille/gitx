@@ -8,3 +8,9 @@ gcloud iam roles undelete
 gcloud iam roles undelete projects/hits-devops-molecule/roles/devops_bucket_writer
 
 gcloud iam roles undelete projects/hits-devops-molecule/roles/devops_cicd
+
+
+
+gcloud config set project $PROJ_ID
+gcloud config get-value project
+
