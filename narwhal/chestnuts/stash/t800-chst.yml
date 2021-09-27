@@ -1,5 +1,4 @@
 t-800:
-- export COMMON_NAME=gitlab-test.app.med.umich.edu
 - ansible-playbook local-filregistry-test.app.med.umich.edu-e certmgr_dest_dir='/tmp' --vault-password-file=drive
 
 
@@ -14,8 +13,6 @@ test-gitlab       Active   16h
 %                                                                                                                                                                             
 
 # Open terminal on the cluster
-export CLUSTER=dev-tooling
-export PROJECT_ID=hits-devops-tooling
 gcloud container clusters get-credentials $CLUSTER --zone us-central1-a --project=$PROJECT
 
 kubectl exec -it -n dev-gitlab gitlab-task-runner-*[tab]* -- /bin/bash
@@ -59,12 +56,7 @@ helm list -a
 helm upgrade gitlab gitlab/gitlab --namespace test-gitlab --values
 
 # interactive DB interface
-export CLUSTER=prod-tooling
-export PROJ=hits-devops-tooling
-export DB_USER=gitlabhq_dev_owner
-export ENV=dev
 gcloud container clusters get-credentials $CLUSTER --zone us-central1-a --project $PROJ
-export DB_POD=$(kubectl get po -n devops-psql -l app=db-interface --output=jsonpath='{.items[0].metadata.name}')
 echo "POD NAME for db-interface=$DB_POD <- this should not be blank"
 kubectl exec -it -n devops-psql $DB_POD -- psql -h localhost -d postgres -U $DB_USER
 
