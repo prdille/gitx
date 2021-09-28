@@ -21,7 +21,7 @@ Su  Mo  Tu We Th Fr Sa
 
 09:40
 Creating IP address
--In --REPO--gcp-iac
+-In --GROUPS--gcp-iac
   - in cicd project
     - vars.yml --> exernal_ips: entry
 	external_ips:
@@ -40,14 +40,14 @@ Creating IP address
 
 10:50
 DNS record
- -In --REPO--infra-as-code
+ -In --GROUPS--infra-as-code
   - ansible-playbook dns.yml -e dns_record=hits-devops-cicd-8690-gke-tutorials -e ip_address=35.190.56.15 -e host_record_state=present -e host_record_type=a_record
  
 
 
 11:25
 Certificate
- -In --REPO--certficates
+ -In --GROUPS--certficates
    - git pull (etc)
  - From README.md
 ###     #the domain name of the certificate to create
@@ -87,9 +87,6 @@ $ ansible-playbook local-files.yml -e common_name=${COMMON_NAME} -e certmgr_dest
  gcloud secrets versions access latest --secret=gke-tutorials-cert 
 
 
-
-
-
 #############
 ### Lunch ###
 #############
@@ -115,6 +112,9 @@ Modifying lab2b.md
     - Start IAP tutorial/lab
 
  
+stroy to enable secret manager api in default project_config
+  - terraform apps
+  - 
 
 
 IAP tutorial 
