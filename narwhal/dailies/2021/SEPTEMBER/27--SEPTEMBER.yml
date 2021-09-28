@@ -116,6 +116,7 @@ stroy to enable secret manager api in default project_config
   - terraform apps
   - 
 
+permissions to 
 
 IAP tutorial 
   - Prassann meeting tomorrow at 15:00
@@ -125,20 +126,61 @@ IAP tutorial
 ############### TUESDAY--28-SEPT-2021 #############################################
 ##################################################################################
 ##################################################################################
-TC:
+08:11
+STANDUP
+  - SAM
+    - might pair program soon
+  - BRUCE
+    - traingin has gone well
+    - lots of questions yesterday
+      - first timer questions
+      - Paul in particular has been probing
+        - things are going well
+        - review slides, review recordings
+  - JOHN
+    - migration up and wrking
+    - Linux team had to get involved
+
+    - support runners next 
+
+### SHANELLE
+###   - GitLab Gold?
+###     - move it on back (discussion time that is)
+
+08:16
+TC: IAP lab tutorial
 AC:
-OBS:
-NS:
-HYP:
+  some info in jira
+  3949
+https://hits-devops-cicd-8690-gke-tutorials.app.med.umich.edu
+
+https://console.cloud.google.com/apis/credentials/consent
+https://console.cloud.google.com/apis/credentials128914795476-gf14jrq0j0u0a78hcb05tirn46htb92l.apps.googleusercontent.com
+lF3fVXtnIl070xlcS3zSfEAR
+https://console.cloud.google.com/security/iap
+
+10:30
+
+
+
+11:30
+Interview for manager's position
+emotional safety at work
+  - continue championing
+  - cross training
+    (we do this in real)
+  - one team ?
+    - what is the smallest unit group of work?
+Very well spoken I think
+
+
 
 #############
 ### Lunch ###
 #############
-TC:
-AC:
-OBS:
-NS:
-HYP:
+
+
+
 
 ##################################################################################
 ##################################################################################	  
