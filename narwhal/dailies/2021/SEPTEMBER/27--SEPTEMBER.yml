@@ -187,6 +187,66 @@ Very well spoken I think
 ############### WEDNESDAY--29-SEPT-2021 ###########################################
 ##################################################################################
 ##################################################################################
+08:15
+  STANDUP
+    SAM:
+      Pairing went well
+      Tomcat server
+BRUCE
+
+    JOHN
+      - troubles getting k8s on-premise approved by IA
+      - on-premise runner fixes 
+	- stability
+      - risk assessment
+	- questions hidden in a tab of Service Now
+
+ps137a disk space
+08:30 Prassana ticket adding public ip
+  INC1535172
+
+10:00
+sds-4148: Enable Secret Manager API in default project_config
+
+  updating project_config
+    - iap, secrets apis added for the tutorials
+    - adding secret manager roles to develpers so they can mess themselves
+    - need to update the tag
+  tag
+    - terraform_apps/terraform_apps_components.yml
+    - products/gke-default.yml 
+    - products/gke-nodb.yml 
+
+10:30
+TC: Enable apis and secret management to customers' projects
+XX:
+  - update: 
+      sds-roles/
+      - terraform_apps/project_config/defaults/main.yml
+	  default_app_config
+	    enabled_apis
+	  permissions
+
+  - update tag: gcp-iac/
+    - terraform_apps/terraform_apps_components.yml
+    - products/gke-default.yml 
+    - products/gke-nodb.yml 
+
+  - deploy (jenkins)
+     Conan
+       - projects-hierarchy (prcr/spi)
+       - cohort_override
+	 - project_config
+
+       - Applies the changes from: 
+	  sds-roles/terraform_apps/project_config/defaults/main.yml
+	 - which were version tagged at the gcp-iac project 
+
+     
+
+
+
+
 TC:
 AC:
 OBS:
@@ -196,11 +256,54 @@ HYP:
 #############
 ### Lunch ###
 #############
-TC:
-AC:
-OBS:
-NS:
-HYP:
+13:00
+  - jq: get dat ting
+    $ apt-get install jq -y
+    $ gcloud secrets versions access latest --secret=oauth-client > oauth-client.json
+    $ kubectl create secret generic iap-oauth-client \
+       --namespace=gke-tutorials
+       --from-literal=client_id=`jq .web.client_id oauth-client.json`
+       --from-literal=client_secret=`jq .web.client_secret oauth-client.json`
+ 
+
+14:00
+  - finished moodifications to lab3 and .ci yaml file
+
+15:00
+  sds-4148 -> put in DONE
+
+*******
+******* NEW PROJECT
+*******
+SDS-4098 - SEE-Glaucoma
+    https://www.umms.med.umich.edu/projects/browse/SDS-4098
+      - Description has a few notes
+- Voyage to Cloud
+  - Spreadsheet of all important information made by Shanelle
+
+- Modify the code/create the project
+  $ git checkout -b see-glaucoma
+  $ mkdir -p customer_products/see/glaucoma/hits-see-glaucoma-a584 
+  $ cp customer_products/prcr/xclaims/hits-prcr-6873/*.yml customer_products/see/glaucoma/hits-see-glaucoma-a584/
+  $ ansible-vault edit customer_products/see/glaucoma/hits-see-glaucoma-a584/vault.yml
+  - Make a VARIETY of changes in the vars.yml file
+    - project_vars:
+	project_id: hits-see-glaucoma-a584
+	project_data_sensitivity: "high"
+	project_technical_owner: "clspeers"
+	project_business_owner: "panewman"
+	project_configuration_item: "seeglaucoma"
+    -----  
+   - line by line
+      - replacing:
+        - xclaims -> seeglaucoma
+        - xclaims -> {{ project_vars['project_configuration_item'] }}
+####
+####
+#### in yaml, you can NOTs variablize a KEY (on the left):
+#### in yaml, you can only variablize VALUES :(on the right)
+####
+####
 
 ##################################################################################
 ##################################################################################	  
