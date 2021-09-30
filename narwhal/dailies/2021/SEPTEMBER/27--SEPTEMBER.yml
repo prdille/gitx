@@ -187,6 +187,7 @@ Very well spoken I think
 ############### WEDNESDAY--29-SEPT-2021 ###########################################
 ##################################################################################
 ##################################################################################
+
 08:15
   STANDUP
     SAM:
@@ -242,20 +243,10 @@ XX:
 	  sds-roles/terraform_apps/project_config/defaults/main.yml
 	 - which were version tagged at the gcp-iac project 
 
-     
-
-
-
-
-TC:
-AC:
-OBS:
-NS:
-HYP:
-
 #############
 ### Lunch ###
 #############
+
 13:00
   - jq: get dat ting
     $ apt-get install jq -y
@@ -304,18 +295,33 @@ SDS-4098 - SEE-Glaucoma
 #### in yaml, you can only variablize VALUES :(on the right)
 ####
 ####
+  - commit/merge
+  - (TOMORROW) bootstrap (TOMORROW)
+
+16:30
+LPD
+  - IAM role is messed up
+    - Error: Request "Create IAM Members roles/viewer group:pdille-cloud-group@umich.edu for \"project \\\"hits-devops-pdille-cfc5\\\"\"" returned error: Batch request and retried single request "Create IAM Members roles/viewer group:pdille-cloud-group@umich.edu for \"project \\\"hits-devops-pdille-cfc5\\\"\"" both failed. Final error: Error applying IAM policy for project "hits-devops-pdille-cfc5": Error setting IAM policy for project "hits-devops-pdille-cfc5": googleapi: Error 400: Group pdille-cloud-group@umich.edu does not exist., badRequest
+
+
 
 ##################################################################################
 ##################################################################################	  
 ############### THURSDAY--30-SEPT-2021 ############################################
 ##################################################################################
 ##################################################################################
-TC:
-AC:
+TC: 
+  Standup SEE-glaucoma project in GKE
+AC: 
+  customer_products/prcr/xclaims/hits-prcr-6873/
+    - vars.yml
+    - vault.yml
 OBS:
+  La ballena blanca: El Tiempo
 NS:
+  bootstrappin & conanin
 HYP:
-
+  Gloria
 #############
 ### Lunch ###
 #############
