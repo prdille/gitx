@@ -307,7 +307,7 @@ LPD
 
 ##################################################################################
 ##################################################################################	  
-############### THURSDAY--30-SEPT-2021 ############################################
+############### THURSDAY-30-SEPT-2021 ############################################
 ##################################################################################
 ##################################################################################
 TC: 
@@ -322,6 +322,77 @@ NS:
   bootstrappin & conanin
 HYP:
   Gloria
+
+08:30
+
+SAM
+
+BRUCE
+
+JOHN
+Ben
+default did not include secret amnager IAP 
+  added to our defaults
+8:45
+Bootstrapin
+
+
+Debug messages
+  "gcloud config set project hits-see-glaucoma-a584",
+  gcloud compute networks create test-vpc --project=hits-see-glaucoma-a584 --subnet-mode=custom --mtu=1460 --bgp-routing-mode=regional
+  gcloud compute networks subnets create test-subnet --project=hits-see-glaucoma-a584 --range=10.0.0.0/9 --network=test-vpc --region=us-central1
+  gcloud container clusters create tmpcluster --workload-pool=hits-see-glaucoma-a584.svc.id.goog --zone=us-central1-a --network test-vpc --subnetwork um-default-us-central1
+  # Wait Till cluster is up! Then delete it and its dependencies!",
+  gcloud container clusters delete tmpcluster --zone=us-central1-a && gcloud compute networks subnets delete test-subnet && gcloud compute networks delete test-vpc
+
+      ####
+      ####       need hits-see-glaucoma-a584.svc.id.goog 
+      ####    cannot apply project config via ci without it
+      ####
+
+Conan
+  - Variablize it
+  - Clickies
+
+      role_bindings:
+        project:
+          - member: "group:glaucomaeyeguide@umich.edu"  # Group name
+the way the account is treated in google
+need a new mcommunity group
+  - Connor
+  - "this group appears to be a user etc"
+11:00
+TC:
+  To have a fully deployed SEE Glaucoma project in GKE (ready to run gke-tutorials) 
+AC:
+  - hits-see-glaucoma-a584 project created
+  - compute/network configs created/modified
+  - bootstrap.yml completed
+  - conan the deployer completed
+
+OBS:
+  - apply psql playbook
+    - add to README.md
+
+NS:
+  - postrges playbook
+
+- accessories.yml needed to be run BEFORE psql
+
+13:30
+AC:
+ - Deployment complete
+OBS:
+  - setup for tutorials
+    - DNS entry
+    - Loading a cert
+    - Putting cert in secret manager
+NS: 
+
+Bryan Meeting
+
+
+
 #############
 ### Lunch ###
 #############
@@ -331,23 +402,121 @@ OBS:
 NS:
 HYP:
 
-##################################################################################
-##################################################################################	  
-################ FRIDAY--01-OCT-2021 #############################################
-##################################################################################
-##################################################################################
-TC:
-AC:
-OBS:
-NS:
-HYP:
+14:30 -- Steve Hassell Interview
+has the right mindset
+  - verification
+  - understands the power of verification
 
-#############
-### Lunch ###
-#############
-TC:
+
+#################################
+#################################
+###### FRIDAY--01-OCT-2021 ######
+#################################
+#################################
+intial node pool with which a cluster is deployed
+code wasn't passing along 
+- modifications
+  - correct the versions
+    - terratest
+      +       github.com/gruntwork-io/terratest v0.37.11
+    - testify
+      +       github.com/stretchr/testify v1.7.0
+
+  - /terraform-generic-modules/gke/main.tf
+
+    #######
+    #######     node_config {
+    #######        service_account = data.google_service_account.node_service_account.email
+    # git #   +    preemptible = var.gke_node_preemptible
+    #######      }
+    #######
+    #######
+
+Terratest
+  particular implentation of the go package libray for iac
+    - TERRAFORM-GENERIC-module
+    - go-code
+    - check history
+
+-OBS:
+  molecule destroy
+    /devops/sds-roles/terraform_apps/network
+molecule is in this
+
+molecule
+  - way to test ansible roles
+  - we us terraform apps as ansible roles
+      molecule: standard role testing famework
+
+***
+*** Running the go code fails on these errors
+*** Mamually deleting in GCP interface
+*** CAPITALS indicate the breadcrumbs in GCP
+***
+-----------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------
+      --  TESTGKE 2021-10-01T10:48:49-04:00 logger.go:66: Error: Error creating Address: googleapi: Error 409: The resource 'projects/hits-devops-molecule/regions/us-central1/addresses/test-nat-manual-ip-1' already exists, alreadyExists
+      --
+      --    TestGKE 2021-10-01T10:48:49-04:00 logger.go:66:   on main.tf line 38, in resource "google_compute_address" "nat_1":
+      --    TestGKE 2021-10-01T10:48:49-04:00 logger.go:66:   38: resource "google_compute_address" "nat_1" {
+      --
+      --  VPC NETWORK
+      --    External IP Address
+-----------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------
+      --  TESTGKE 2021-10-01T10:48:49-04:00 logger.go:66: Error: Error creating Address: googleapi: Error 409: The resource 'projects/hits-devops-molecule/regions/us-central1/addresses/test-nat-manual-ip-1' already exists, alreadyExists
+      --  Error: Error creating Address: googleapi: Error 409: The resource 'projects/hits-devops-molecule/regions/us-central1/addresses/test-nat-manual-ip-2' already exists, alreadyExists
+      --
+      --
+      --    TestGKE 2021-10-01T10:48:49-04:00 logger.go:66:   on main.tf line 43, in resource "google_compute_address" "nat_2":
+      --    TestGKE 2021-10-01T10:48:49-04:00 logger.go:66:   43: resource "google_compute_address" "nat_2" {
+      --
+      --  VPC NETWORK
+      --    External IP Address
+-----------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------
+      --  Error: Error creating Topic: googleapi: Error 409: Resource already exists in the project (resource=basic-private-topic).
+      --
+      --    TestGKE 2021-10-01T10:48:49-04:00 logger.go:66:   on main.tf line 78, in resource "google_pubsub_topic" "cicd_pubsub":
+      --    TestGKE 2021-10-01T10:48:49-04:00 logger.go:66:   78: resource "google_pubsub_topic" "cicd_pubsub" {
+      --
+      --
+      --  TOPIC
+      --  PUB/SUB
+-----------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------
+      --  Error: Error creating service account: googleapi: Error 409: Service account gke-node already exists within project projects/hits-devops-molecule., alreadyExists
+      --
+      --    TestGKE 2021-10-01T10:48:49-04:00 logger.go:66:   on main.tf line 90, in resource "google_service_account" "node_service_account":
+      --    TestGKE 2021-10-01T10:48:49-04:00 logger.go:66:   90: resource "google_service_account" "node_service_account" {
+      --
+      --  SERVICE ACCOUNT
+-----------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------
+      --  Error: Found more than one 1 NotificationChannel matching specified filter: display_name="CICD email"
+      --
+      --    TestGKE 2021-10-01T10:48:49-04:00 logger.go:66:   on ../../../gke/main.tf line 161, in data "google_monitoring_notification_channel" "notify":
+      --    TestGKE 2021-10-01T10:48:49-04:00 logger.go:66:  161: data "google_monitoring_notification_channel" "notify" {
+      --
+      --
+      --  MONITORING
+      --    ALERTING
+      --      MANAGER CHANNELS
+      --	(on the top right) 
+-----------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+13:00
+Prepared for October
+  - dailies yml files
+
+Gather
+TC: Stand up cfc5 in GKE 
 AC:
-OBS:
-NS:
-HYP:
+  - Aborted first run. 
+    - something was off.
+      - looked at the inputs
+	- missing 
 
