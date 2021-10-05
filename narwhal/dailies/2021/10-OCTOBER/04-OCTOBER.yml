@@ -21,6 +21,75 @@
 ##################################################################################
 ##################################################################################
 
+08:15
+STANDUUP
+  - NOT paying attention
+08:30
+
+Steve Kinzler
+dept of comms 
+OBJECTIONS
+  - old devices
+  - apache configuration
+    - huge, grufty
+    - Steve's main focus is apache 
+    ~ 5000 lines of code?
+
+cipher suites
+ 
+Stuff over my head
+09:10
+- What to do 
+- Do for them?
+  - Not undertnading the 
+- THE great challenge
+
+Brian: Goals is to collaborate more alongside 
+
+10:00
+TC: SDS-4158
+Kubernetes Engine
+  - Clusters
+  - Workloads
+    - only deployed a test deployment
+    - many nodes created
+      - same with pdille-cfc5
+- e2-standard-2
+
+10:30
+RUNNING
+product_vars.yml
+  - ACTUALLY the first CONAN job
+
+
+
+AC: registered DNS hits-see-glaucoma-a584-gke-tutorials.app.med.umich.edu
+
+13:45 
+  Ben versioning the terraform apps which he modified 
+    - compute
+    - project_config
+14:00
+  Erin's Meeting for Academic IT
+The Matrix?
+
+Andrew
+  has to make his boss happy
+  who is Andrew
+    - CTO
+    - CIO
+15:00
+cicd meeting
+  - Jenkins retirement
+
+
+
+
+
+
+
+
+
 ##################################################################################
 ##################################################################################	  
 ############### TUESDAY--05-OCT-2021 #############################################
