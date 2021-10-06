@@ -96,11 +96,76 @@ cicd meeting
 ##################################################################################
 ##################################################################################
 
+TC: Get the sizing changes for prcr in place
+AC: Runnin Conana the Deployer
+
+
+TC: 
+
+*** REMEMBER ***
+take DB online offline
+SDS-4018
+container registry
+authenticate
+build and push images using Docker commands
+
+hits-devops-tooling
+hits-devops-tools-test-c3e6
+hits-devops-tools-prod-4dca
+hits-devops-cicd-8690
+hits-devops-firedrills-108d
+x  hits-prcr-6873
+x  hits-see-glaucoma-a584
+hits-devops-molecule
+hits-spi-prod-cbdc
+hits-spi-shared-e92f
+hits-spi-skingen
+hits-spi-sandbox-a938
+
 ##################################################################################
 ##################################################################################	  
 ############### WEDNESDAY--06-OCT-2021 ###########################################
 ##################################################################################
 ##################################################################################
+
+08:16
+The BEST days are when you get out and do stuff. Undistracted. Relational with others. DOING
+WHY is it that we DESIRE the things that will have the opposite effect on us
+WHY do we DESIRE things that make us UN-happier
+
+ERROR
+Error: Failed to get existing workspaces: querying Cloud Storage failed: Get "https://storage.googleapis.com/storage/v1/b/hits-devops-molecule-tfstate/o?alt=json&delimiter=%2F&pageToken=&prefix=project_config%2F&prettyPrint=false&projection=full&versions=false": compute: Received 403 `Unable to generate access token; IAM returned 403 Forbidden: The caller does not have permission
+This error could be caused by a missing IAM policy binding on the target IAM service account.
+For more information, refer to the Workload Identity documentation:
+	https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity#authenticating_to
+
+11:31
+SHIFT-LEFT
+  Jenkins is erring
+    go to workstation and run product_vars.yml MANUALLY to investigate
+  Jenkins runs product_vars.yml
+  - UNKNOWN
+
+  - bootstrap_product_instance.yml now
+13:00
+TC: 
+  Up-to-date Terraform Apps in all hits-devops managed projects
+AC: 
+  projects completed:
+    devops/tooling/hits-devops-tooling
+    devops/tools/hits-devops-tools-test-c3e6
+    devops/tools/hits-devops-tools-prod-4dca
+    devops/gitlab/hits-devops-cicd-8690
+OBS:
+  Error on molecule project
+*from-john
+  - molecule is not to be sullied by Jenkins
+NS:
+- molecule converge
+    just project_config
+    hits-devops-molecule
+
+
 
 ##################################################################################
 ##################################################################################	  
@@ -113,3 +178,4 @@ cicd meeting
 ############### FRIDAY--08-OCT-2021 #############################################
 ##################################################################################
 ##################################################################################
+

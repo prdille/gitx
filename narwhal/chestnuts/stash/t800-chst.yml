@@ -1,4 +1,14 @@
 t-800:
+ONE LINERS from Ben
+for i in `find . -type d -name "hits*"|grep -v personal|awk -F '/' '{print $4}'`; do echo gcloud container binauthz policy export --project=$i; done
+
+
+
+wq
+for i in `find . -type d -name "hits*"|grep -v personal|awk -F '/' '{print $4}'`; do echo $i; gcloud container binauthz policy export --project=$i | grep metrics; done
+
+
+
 - ansible-playbook local-filregistry-test.app.med.umich.edu-e certmgr_dest_dir='/tmp' --vault-password-file=drive
 
 
