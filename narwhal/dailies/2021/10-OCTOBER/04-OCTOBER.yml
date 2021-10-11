@@ -165,6 +165,47 @@ NS:
     just project_config
     hits-devops-molecule
 
+15:00
+AC: All projects updated
+
+15:30
+removed the omnibus VM from hits-devops-tools-prod-4dca
+
+15:45
+Challenge: Container Registry
+TC: Docker push 
+AC: 
+SDS-4018
+OBS:
+unkown blob
+NS:
+
+HYP:
+gloria
+
+##
+## DOCKER
+## 
+## docker login registry-prod.app.med.umich.edu -u bbalk
+## docker tag ad4c705f24d3 registry-prod.app.med.umich.edu/devops/hits-gitlab/ci-tutorials-sandbox/nginx:latest
+## docker push registry-prod.app.med.umich.edu/devops/hits-gitlab/ci-tutorials-sandbox/nginx:latest
+##
+##
+
+Artifact Registry
+OUR product
+each customer is not paying for ALL the containers
+gitlab provides with better scanning than artifact registry
+taking out some of our product
+
+
+16:00
+
+16:20
+Just getting started :(
+modifying kata
+
+16:30 [kata]
 
 
 ##################################################################################
@@ -172,10 +213,76 @@ NS:
 ############### THURSDAY--07-OCT-2021 ############################################
 ##################################################################################
 ##################################################################################
+sick
 
 ##################################################################################
 ##################################################################################	  
 ############### FRIDAY--08-OCT-2021 #############################################
 ##################################################################################
 ##################################################################################
+
+
+sam
+new laptop
+taking notes about everything I do
+
+Bruce 
+maven xml
+documented all that
+snapshot
+
+update ingress 
+helm chart
+
+kubernetes has updated compenets some of the apis and depricating
+make sure gitlab can handle the new versions
+
+Developer did not follow the tutorial to set up project
+used: v1beta
+should: v1
+
+TC: ugrade helm 1.22
+AC: 1.22 is available
+
+
+DOCUMENTIN A PROCESS
+gitlab-dev instance
+upgrade availabel
+hit pencil
+choose version
+hit save
+
+10:15
+had to delete the ingress
+fun gitlab.yml
+helm update
+grabbed the correct api version for ingress based on the newest version of GKE 1.22
+
+
+11:18
+500 error in events (load balancer config)
+nginx config errors
+
+
+
+
+##
+
+Retry
+CREATE DEV-TOOLING CLUSTER
+1.21
+
+backup
+update control plane 
+run playbook
+check the ingress
+node pool upgrade
+
+
+
+
+
+
+
+
 

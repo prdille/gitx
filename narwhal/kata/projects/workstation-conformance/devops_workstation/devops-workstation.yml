@@ -1,0 +1,247 @@
+---
+- hosts: localhost
+  connection: local
+  become: false
+  vars:
+    homebrew_install_dir: /usr/local
+    use_zsh: true # otherwise use bash
+    brew_special_items:
+      - docker
+      - google-cloud-sdk
+      - the-unarchiver
+      - visual-studio-code
+      - virtualbox
+      - vagrant
+      - firefox
+      - gimp
+      - iterm2
+      - keepassx
+      - libreoffice
+      - slack
+      - xquartz
+      - zoom
+      
+
+  tasks:
+    - name: Install python prerequisites
+      pip:
+        name:
+          - ansible-lint
+          - boto
+          - docker
+          - google-auth
+          - google-cloud-storage
+          - infoblox-client
+          - lxml
+          - jmespath
+          - molecule
+          - molecule-docker
+          - molecule-vagrant
+          - ndg-httpsclient
+          - openshift
+          - pyasn1
+          - pyopenssl
+          - pysnow
+          - python-gitlab
+          - python-vagrant
+          - requests
+          - testinfra
+          - urllib3
+          - virtualenv
+          - yamllint
+        state: latest
+        extra_args: "--user"
+      tags: always
+ 
+    - name: Install brew packages
+      homebrew:
+        name:
+          - bash
+          - bash-completion@2 # needed for k8s kubectl autocomplet
+          - golang
+          - helm
+          - java
+          - jmeter
+          - linkerd
+          - maven
+          - minikube
+          - kube-ps1
+          - p7zip
+          - terraformer
+          - velero
+          - terraform-docs
+          - tmux
+          - warrensbox/tap/tfswitch
+          - wget
+        state: latest
+        path: "{{ homebrew_install_dir }}/bin"
+        update_homebrew: true
+      tags:
+        - install
+        - update
+ 
+# Brew is deprecating certain casks and making them part of brew proper.  The following tasks 
+# are to deal with this case until ansible's modules catch up.  Some discussion here:
+# https://github.com/ansible-collections/community.general/issues/1524
+# https://github.com/ansible-collections/community.general/issues/864
+# Brew's deprection:
+# https://github.com/Homebrew/brew/pull/8387
+# https://github.com/Homebrew/brew/pull/8302
+# https://github.com/Homebrew/brew/pull/8387
+
+    - name: Get list of installed formulae and casks
+      command: brew list --casks
+      register: brewlist
+
+    - name: Install special brew items
+      command: brew install --cask {{ item }}
+      when:
+        - item not in brewlist.stdout_lines
+      register: brew_res
+      loop: "{{ brew_special_items }}"
+    
+    - name: Try to update special brew items
+      command: brew upgrade --cask {{ item }}
+      loop: "{{ brew_special_items }}"
+      when:
+        - item in brewlist.stdout_lines
+
+# Brew is deprecating certain casks and making them part of brew proper.  The previous tasks
+# are to deal with this case until ansible's modules catch up.  Some discussion here:
+# https://github.com/ansible-collections/community.general/issues/864
+
+### BEGIN BASH CONFIG
+    - name: Bash setup
+      when: not use_zsh|bool
+      block:
+        - name: Set up autocompletion for kubernetes
+          blockinfile:
+            path: "/Users/{{ ansible_user }}/.bashrc"
+            marker: "# {mark} autocompletion for kubernetes"
+            block: |
+              export BASH_COMPLETION_COMPAT_DIR="/usr/local/etc/bash_completion.d"
+              source <(kubectl completion bash)
+              alias k=kubectl
+              complete -F __start_kubectl k
+          when: use_latest_bash|default(true)
+    
+        - name: Set up latest bash instead of default macOS (bash v3)
+          blockinfile:
+            path: "/Users/{{ ansible_user }}/.bashrc"
+            marker: "# {mark} use latest bash"
+            block: |
+              BASH_MAJOR_VER=`echo $BASH_VERSION|cut -d. -f1`
+              if [ "$BASH_MAJOR_VER" == "3" ]; then
+               bash
+               exit 0
+              fi 
+          when: use_latest_bash|default(true)
+    
+        - name: Ensure kube-ps1 is in the bashrc
+          blockinfile:
+            marker: '# {mark} kube-ps1 kubernetes'
+            block: |
+              source "/usr/local/share/kube-ps1.sh"
+              PS1='$(kube_ps1)'$PS1
+            path: "/Users/{{ ansible_user }}/.bashrc"
+            create: true
+          when: (use_kube_ps1|default(true))|bool
+    
+        - name: Ensure fork safety is in the bashrc (for python forks)
+          blockinfile:
+            marker: '# {mark} python_fork_safety kubernetes'
+            block: |
+              export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+            path: "/Users/{{ ansible_user }}/.bashrc"
+            create: true
+          when: (python_fork_safety|default(true))|bool
+
+        - name: Ensure google cloud sdk's information is in bashrc (dependent on python3.8)
+          blockinfile:
+            marker: '# {mark} google_cloud_sdk'
+            block: |
+              source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.bash.inc"
+              source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.bash.inc"
+            path: "/Users/{{ ansible_user }}/.bashrc"
+            create: true
+          when: (python_fork_safety|default(true))|bool
+### END BASH CONFIG
+
+
+### BEGIN ZSH CONFIG
+    - name: Zsh setup
+      when: use_zsh|bool
+      block:
+###    We want oh-my-zsh, but it just runs a shell directly from curl. We should review changes to this file
+###    over time if we want new functionality since we run it directly without review (vs. homebrew install)
+        - name: What version of oh-my-zsh have we reviewed?
+          set_fact:
+            oh_my_zsh:
+              commit: 12669f29f0843b8b980dd137f150a74511f88842 # checked 2021-04-19
+              checksum: md5:ecbbd58a4831a9f1d8e75a31b1e32545
+          tags: ohmy
+
+        - name: Pull down oh-my-zsh at the last reviewed git sha hash
+          get_url: 
+            url: https://raw.github.com/ohmyzsh/ohmyzsh/{{ oh_my_zsh.commit }}/tools/install.sh
+            dest: "/Users/{{ ansible_user }}/ohmyzsh_install.sh"
+            mode: "0775"
+            checksum: "{{ oh_my_zsh.checksum }}"
+          tags: ohmy
+          register: get_omz
+
+        - name: Run oh-my-zsh install (if needed)
+          shell: "/Users/{{ ansible_user }}/ohmyzsh_install.sh"
+          when: get_omz.changed
+          tags: ohmy
+        - name: Set up autocompletion for kubernetes
+          blockinfile:
+            path: "/Users/{{ ansible_user }}/.zshrc"
+            marker: "# {mark} autocompletion for kubernetes"
+            create: true
+            block: |
+              autoload -Uz compinit
+              compinit
+              source <(kubectl completion zsh)
+              alias k=kubectl
+              complete -F __start_kubectl k
+    
+        - name: Ensure kube-ps1 is in the zshrc
+          blockinfile:
+            marker: '# {mark} kube-ps1 kubernetes'
+            create: true
+            block: |
+              source "/usr/local/share/kube-ps1.sh"
+              PS1='$(kube_ps1)'$PS1
+            path: "/Users/{{ ansible_user }}/.zshrc"
+          when: (use_kube_ps1|default(true))|bool
+    
+        - name: Ensure fork safety is in the zshrc (for python forks)
+          blockinfile:
+            marker: '# {mark} python_fork_safety kubernetes'
+            block: |
+              export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES
+            path: "/Users/{{ ansible_user }}/.zshrc"
+            create: true
+          when: (python_fork_safety|default(true))|bool
+
+        - name: Ensure google cloud sdk's information is in zshrc (dependent on python3.8)
+          blockinfile:
+            marker: '# {mark} google_cloud_sdk'
+            block: |
+              source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+              source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+            path: "/Users/{{ ansible_user }}/.zshrc"
+            create: true
+ 
+        - name: Ensure ANSIBLE_VAULT_PASSWORD_FILE environment variable is set when file is present
+          blockinfile:
+            marker: '# {mark} export vault file'
+            block: |
+              if [ -f /tmp/av ]; then
+                  export ANSIBLE_VAULT_PASSWORD_FILE=/tmp/av
+              fi
+            path: "/Users/{{ ansible_user }}/.zshrc"
+            create: true
+         
+### END ZSH CONFIG

@@ -17,12 +17,21 @@ devops/tooling/hits-devops-tooling
 devops/tools/hits-devops-tools-test-c3e6
 devops/tools/hits-devops-tools-prod-4dca 
 devops/gitlab/hits-devops-cicd-8690
----------------------------------------------------------
-
 devops/firedrill/hits-devops-firedrills-108d
-cicd/molecule/hits-devops-molecule
----------------------------------------------------------
+*cicd/molecule/hits-devops-molecule
 spi/fhhs/hits-spi-prod-cbdc
 spi/shared/hits-spi-shared-e92f
 spi/sbdrc/hits-spi-skingen
-spi/sandbox/hits-spi-sandbox-a938
+*spi/sandbox/hits-spi-sandbox-a938
+
+tooling
+gke v1.21 
+need to upgrade to 
+gke v1.23
+
+network api
+v1beta
+ modify the ingress
+upgrade helm chart
+
+[{"image":"us-docker.pkg.dev/hits-spi-shared-e92f/shared-ar/spi-pmrq-restful-test:latest","name":"spi-pmrq-restful","ports":[{"containerPort":5000}]}]}}}}
