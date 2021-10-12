@@ -15,32 +15,170 @@
 ------------------------------------------------
 ################################################
 
-##################################################################################
-##################################################################################	  
-############### MONDAY--11-OCT-2021 #############################################
-##################################################################################
-##################################################################################
+#####################################
+#####################################	  
+###### MONDAY--11-OCT-2021 ##########
+#####################################
+#####################################
 
-##################################################################################
-##################################################################################	  
-############### TUESDAY--12-OCT-2021 #############################################
-##################################################################################
-##################################################################################
+08:35
+John wisdom:
+  - "By the time you get context it will be too late"
 
-##################################################################################
-##################################################################################	  
-############### WEDNESDAY--13-OCT-2021 ###########################################
-##################################################################################
-##################################################################################
+CREATE DEV-TOOLING CLUSTER
+1.21
 
-##################################################################################
-##################################################################################	  
-############### THURSDAY--14-OCT-2021 ############################################
-##################################################################################
-##################################################################################
+backup
+update control plane
+run playbook
+check the ingress
+node pool upgrade
 
-##################################################################################
-##################################################################################	  
-############### FRIDAY--15-OCT-2021 #############################################
-##################################################################################
-##################################################################################
+Firedrill: Gitlab backup restore to a freah cluster
+Drivin:
+  Looking at backups
+
+
+TC: Remove the Dev cluster
+AC:
+DELETE THE DEV CLUSTER
+(make sure all the ingresses are gone)
+gcloud container clusters get-credentials dev-tooling --zone us-central1-a --project hits-devops-tooling
+helm list -n dev-gitlab
+helm uninstall gitlab --namespace dev-gitlab && kubectl delete ns dev-gitlab
+gcloud container clusters delete dev-tooling --project hits-devops-tooling --zone us-central1-a
+
+
+conan the deployer
+  makes dev cluster because it's in the code to have a dev cluster in the compute cohort
+
+
+09:45
+ansible-playbook gitlab.yml -e curr_env=dev -e customer=devops -e product_instance=tooling -e project_id=hits-devops-tooling 
+
+09:50
+Workloads are up and building
+
+09:55
+Upgrade control plane
+
+Ingress not visible
+Missing data from clusters dev tooling (failed to fetch)
+
+ROUND II
+10:15
+DELETE DEV CLUSTER  
+create cluster via Conan
+
+Deleted ingresses only (since they are the dpricated versions)
+Save changes
+Upgraded Node Control Plane
+Upgrading node pool
+AC:
+   1.22.1-gke.1602 
+
+Scaled our deployment of nginx to zero
+deleted the ingress from the ns
+
+NS:
+  Install Helm upgrade
+  scale controller to 2 on deploymnents
+  watch ingress creations 
+    crontroller logs
+
+ROUND 4
+-installed gek 1.21
+- install gitlab
+- removed *ingress*
+   $ kubectl delete ingress gitlab-webservice-default -n dev-gitlab
+   $ kubectl delete ingress gitlab-registry -n dev-gitlab
+
+   $ kubectl delete service gitlab-nginx-ingress-controller -n dev-gitlab
+   $ kubectl delete service gitlab-nginx-ingress-default-backend -n dev-gitlab
+   $ kubectl delete service gitlab-nginx-ingress-controller-metrics -n dev-gitlab
+
+   $ kubectl delete deployment gitlab-nginx-ingress-controller -n dev-gitlab
+   $ kubectl delete deployment gitlab-nginx-ingress-default-backend -n dev-gitlab
+
+- update node control plane
+- update node pool
+
+
+
+#####################################
+#####################################	  
+###### TUESDAY--12-OCT-2021 #########
+#####################################
+#####################################
+John:
+tc
+ac
+
+hits-devops-atlassian
+
+hits-devops-atl
+hits-devops-atl-sens
+
+2 projects
+  [jira]
+  [confluence]?
+    - confluence can only do Postgres 10
+    - jira Postgres 11
+
+1) stand up gke-default
+
+### Separate DB instances
+
+TC:
+  Create prject 2.0 Jira in GKE
+AC:
+  most features variables
+gcp-projects in gcp-iac
+  - SOMEWHAT apply but a good start
+
+NS: 
+  check the vars
+customer = atl
+product_instance= jira
+
+LUNCH
+13:10
+TC: 
+  - Deploy Jira 2.0 project on GKE
+AC: 
+  - completed modifications of vars.yml
+    - cp from tooling/vars.yml
+OBS:
+  - vault.yml
+    - need gcp project created by ITS
+      - [vars.yml complettion "xxxx"]
+  - request extra_ip 
+    - dns.yml
+	create 
+	  jira.app.med.umich.edu
+	  jira-test.app.med.umich.edu
+      binding to the new dns
+  - Conan
+NS:
+  - comb through current Jira vars.yml for variables to add
+
+
+
+
+#####################################
+#####################################	  
+###### WEDNESDAY--13-OCT-2021 #######
+#####################################
+#####################################
+
+#####################################
+#####################################	  
+###### THURSDAY--14-OCT-2021 ########
+#####################################
+#####################################
+
+#####################################
+#####################################	  
+###### FRIDAY--15-OCT-2021 ##########
+#####################################
+#####################################
