@@ -64,6 +64,11 @@ What's currently in our way?:
 ? ????????? ----------------------------
 
 kubectl is gone
+CONFIRM the product is working
+- proper function
+get the python version and make sure it's running the right version
+
+
 
 ############################
 ############################
@@ -71,7 +76,14 @@ kubectl is gone
 ############################
 What's our next experiment?
 - can I run a simple playbook?
--   
+- what's the most common WE'VE seen spending time on
+  - biggest pain point
+    - python v
+    - ansible v
+    - kubectl installed
+	spin up a new shell 
+        see if kubectl is installed
+ 
 
    ###################
    ### EXPECTATION ###

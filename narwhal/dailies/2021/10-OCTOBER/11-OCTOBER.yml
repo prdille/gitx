@@ -170,6 +170,55 @@ NS:
 ###### WEDNESDAY--13-OCT-2021 #######
 #####################################
 #####################################
+09:15
+kubespray bits
+
+OBS: met
+- vault
+- comb and combine vars
+- merge request
+
+resource "google_compute_global_address": "{{ jira }}_{{ jira_env }}" 
+    - {name = "{{ jira }}-{{ jira_env }}"}
+
+
+LUNCH
+13:15
+TC: 
+  - Deploy Jira 2.0 project on GKE
+AC:
+  - vault.yml
+  - vars.yml
+    - still modifying
+OBS:
+  - service accounts for all "jira" instances
+  - create roles
+    - members of
+  - workload identity
+NS:
+  - sa descritions
+  - create the roles etc
+  - workload identities
+  - merge request
+  - bootstrap
+    - extra steps at end
+  - conan
+
+16:00
+TC: 
+  - Deploy Jira 2.0 project on GKE
+AC:
+  - vault.yml
+  - vars.yml
+OBS:
+  - code review
+  - db-interface exploration?
+NS:
+  - merge request
+    - code review by team
+  - bootstrap.yml
+    - extra steps
+  - Conin
 
 #####################################
 #####################################	  
