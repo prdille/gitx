@@ -9,8 +9,18 @@
 #### TARGET CONDITION ######
 ############################
 ############################
- - Find a Target Conditions 
+ - Create a conformance test(ct) for Devops Workstation
   
+****  find certain qualities of assets
+****    put into code
+****  run the latest confomrance tes
+****    - everytime they drive
+****      - checks
+****  OR
+****    - first time login
+****      - checks
+****    - the workstation problems become code
+**** messaging around that?
   
 ############################
 ############################
@@ -19,22 +29,19 @@
 ############################  
 Where are we now?
 - Have ideas
+- Have an idea of my quest
 
-
-  
-  
    ##################
    ### REFLECTION ###
    ##################
      1 - What did you plan as your LAST STEP:
-         - 
+         - kubectl ct 
      2 - What did you expect:
-         - 
+	 - have a script made to check if kubectl exists
      3 - What actually happened:
          - 
      4 - What did you learn:
          - 
-     
      
 ############################
 ############################
@@ -42,33 +49,12 @@ Where are we now?
 ############################
 ############################  
 What's currently in our way?:
-*A-devops-workstation
-### CONFORMANCE TESTING ###
-  find certain qualities of assets
-    put into code
-  run the latest confomrance tes
-    - everytime they drive
-      - checks
-  OR
-    - first time login
-      - checks
-    - the workstation problems become code
-* messaging around that?
-
-? ????????? ----------------------------
-? 
-?  Is this workstation good?
-?   if not . . . 
-?    - fix
-? 
-? ????????? ----------------------------
-
-kubectl is gone
-CONFIRM the product is working
-- proper function
-get the python version and make sure it's running the right version
-
-
+  - time
+  - others' pain-points
+  - ignorance on methods
+    - testing
+    - existence
+    - state
 
 ############################
 ############################
@@ -84,11 +70,25 @@ What's our next experiment?
 	spin up a new shell 
         see if kubectl is installed
  
+  - git branches
+
+13-OCT-2021
+  - kubectl
+  - Coninue investigation from ABOVE
+  - Conformance Testing (GENERALITIES)
+
+****
+**** kubectl is gone
+**** CONFIRM the product is working
+**** - proper function
+**** get the python version and make sure it's running the right version
+****
 
    ###################
    ### EXPECTATION ###
    ###################
-   - 
+   - 13-OCT
+     - have a script made to check if kubectl exists
    
 ############################
 ############################
@@ -96,27 +96,8 @@ What's our next experiment?
 ############################
 ############################     
 When can we see what we've learned from that step?
-  - Tomorrow's (29-SEPT-2021) LPD 
+  - Tomorrow's (14-OCT-2021) LPD 
   
   
     
     
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-
-
-  
