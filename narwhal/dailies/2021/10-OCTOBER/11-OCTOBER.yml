@@ -225,7 +225,25 @@ NS:
 ###### THURSDAY--14-OCT-2021 ########
 #####################################
 #####################################
+Prasanna's permissions
 
+There are 6 modules at the bottom of the page just for "basics"
+  -https://kubernetes.io/docs/tutorials/kubernetes-basics/
+
+First module: Using Minikube to Create a Cluster
+  - https://kubernetes.io/docs/tutorials/kubernetes-basics/create-cluster/cluster-intro/
+
+And honestly the whole docs page is amazing and easy to explore
+  - https://kubernetes.io/docs
+
+NS:
+  - Creating Db for all instances
+
+
+28
+29903
+20600
+20576 -16
 #####################################
 #####################################	  
 ###### FRIDAY--15-OCT-2021 ##########

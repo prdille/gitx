@@ -1,0 +1,24 @@
+---
+- hosts: localhost
+  name: 'Conformance Test of Devops Workstation'
+  ignore_errors: true
+  tasks:
+    - name: 'kubectl Conformance Test'
+      ansible.builtin.shell: 
+        cmd: 'which kubectl'
+      register: which_kubectl   
+
+    - name: '-- DEBUG -- kubectl Conformance Test -- DEBUG --' 
+      ansible.builtin.debug: 
+        var: "{{ which_kubectl }}"
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#
+#

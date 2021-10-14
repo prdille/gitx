@@ -28,8 +28,8 @@
 ############################
 ############################  
 Where are we now?
-- Have ideas
-- Have an idea of my quest
+- Investigating kubectl 
+- focusing on team pain points
 
    ##################
    ### REFLECTION ###
@@ -39,6 +39,7 @@ Where are we now?
      2 - What did you expect:
 	 - have a script made to check if kubectl exists
      3 - What actually happened:
+         - Set up 'play' -- empty
          - 
      4 - What did you learn:
          - 
@@ -84,6 +85,14 @@ What's our next experiment?
 **** get the python version and make sure it's running the right version
 ****
 
+
+****
+****
+**** ansible (ignore_errors: true)
+**** review ansible code
+****    - debug
+**** write first playbook
+****
    ###################
    ### EXPECTATION ###
    ###################
@@ -96,7 +105,7 @@ What's our next experiment?
 ############################
 ############################     
 When can we see what we've learned from that step?
-  - Tomorrow's (14-OCT-2021) LPD 
+  - Tomorrow's (15-OCT-2021) LPD 
   
   
     
