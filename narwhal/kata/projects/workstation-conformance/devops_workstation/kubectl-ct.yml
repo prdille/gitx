@@ -8,9 +8,26 @@
         cmd: 'which kubectl'
       register: which_kubectl   
 
+ #   - name: 'e-c-h-o-'
+ #     ansible.builtin.shell:
+ #       cmd: echo "{{ which_kubectl }}"
     - name: '-- DEBUG -- kubectl Conformance Test -- DEBUG --' 
       ansible.builtin.debug: 
-        var: "{{ which_kubectl }}"
+        var: which_kubectl
+
+
+    - name: ''
+      ansible.builtin.fail: 
+# "error out and start here instead"
+      register:
+
+#    - name: ''
+#      ansible.builtin.: 
+#      register: 
+#
+#    - name: 'Autherized CIDR'
+#      ansible.builtin.: 
+#      register: 
 #
 #
 #

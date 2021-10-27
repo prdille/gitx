@@ -1,0 +1,1026 @@
+TASK [database : Debug app_input_config to verify what inputs should be combined into app_config] **************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [database : initialize vars to defaults (this is needed when different roles that use them are ran in succession)] ****************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Get environment list (might be just prod)] ****************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=database_custom_overrides)
+ok: [localhost] => (item=database_network)
+
+TASK [database : Initialize app_config] ************************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=prod)
+
+TASK [database : Combine overrides into app_config] ************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=database_custom_overrides)
+ok: [localhost] => (item=database_network)
+
+TASK [database : Debug app_config after combining overrides] ***************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [database : Write out the content of the app_config for this terraform_app] *******************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : set app_dir] **********************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Create app_dir] *******************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Create var file] ******************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Check for jinja templates in database dir] ****************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [database : debug terraform_templates] ********************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [database : Check for pretask file] ***********************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Run pretasks (if needed)] *********************************************************************************************************************************************************************************************************************
+included: /Users/pdille/git/devops/gcp-iac/roles/database/tasks/pretask.yml for localhost
+
+TASK [database : Check for network overrides file | database-pretask] ******************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Include vars from network overrides (if needed) | network-pretask] ****************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : set up temp dictionary to combine into network] ***********************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Combine temp dictionary into network] *********************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Write out network-overrides] ******************************************************************************************************************************************************************************************************************
+changed: [localhost]
+
+TASK [database : Apply jinja templates (from ansible control host)] ********************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [database : set posttask path] ****************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [include role in loop from cohort configuration (with enable_templates==true) (to take any overrides and generate terraform)] *****************************************************************************************************************************
+included: /Users/pdille/git/devops/gcp-iac/tasks/product_vars.yml for localhost => (item={'name': 'cross_project', 'version': '2.0.0'})
+included: /Users/pdille/git/devops/gcp-iac/tasks/product_vars.yml for localhost => (item={'name': 'project_config', 'version': '2.0.6'})
+included: /Users/pdille/git/devops/gcp-iac/tasks/product_vars.yml for localhost => (item={'name': 'storage', 'version': '1.0.1'})
+included: /Users/pdille/git/devops/gcp-iac/tasks/product_vars.yml for localhost => (item={'name': 'functions', 'version': '2.0.0'})
+included: /Users/pdille/git/devops/gcp-iac/tasks/product_vars.yml for localhost => (item={'name': 'external_ips', 'version': '2.0.0'})
+included: /Users/pdille/git/devops/gcp-iac/tasks/product_vars.yml for localhost => (item={'name': 'artifact_registry', 'version': '2.0.0'})
+included: /Users/pdille/git/devops/gcp-iac/tasks/product_vars.yml for localhost => (item={'name': 'network', 'version': '2.0.0'})
+included: /Users/pdille/git/devops/gcp-iac/tasks/product_vars.yml for localhost => (item={'name': 'compute', 'version': '2.0.5'})
+included: /Users/pdille/git/devops/gcp-iac/tasks/product_vars.yml for localhost => (item={'name': 'database', 'version': '2.0.1'})
+
+TASK [set app_input_config from overrides file] ****************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [include component role] **********************************************************************************************************************************************************************************************************************************
+
+TASK [cross_project : Set required project_var keys] ***********************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [cross_project : Assert required vars] ********************************************************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [cross_project : Assert that all required project_var keys exist] *****************************************************************************************************************************************************************************************
+ok: [localhost] => (item=project_id) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_id",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_data_sensitivity) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_data_sensitivity",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_technical_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_technical_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_business_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_business_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_configuration_item) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_configuration_item",
+    "msg": "All assertions passed"
+}
+
+TASK [cross_project : Debug app_input_config to verify what inputs should be combined into app_config] *********************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [cross_project : initialize vars to defaults (this is needed when different roles that use them are ran in succession)] ***********************************************************************************************************************************
+ok: [localhost]
+
+TASK [cross_project : Get environment list (might be just prod)] ***********************************************************************************************************************************************************************************************
+ok: [localhost] => (item=cross_project_custom_overrides)
+
+TASK [cross_project : Initialize app_config] *******************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=prod)
+
+TASK [cross_project : Combine overrides into app_config] *******************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=cross_project_custom_overrides)
+
+TASK [cross_project : Debug app_config after combining overrides] **********************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [cross_project : Write out the content of the app_config for this terraform_app] **************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [cross_project : set app_dir] *****************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [cross_project : Create app_dir] **************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [cross_project : Create var file] *************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [cross_project : Check for jinja templates in cross_project dir] ******************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [cross_project : debug terraform_templates] ***************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [cross_project : Check for pretask file] ******************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [cross_project : Run pretasks (if needed)] ****************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [cross_project : Apply jinja templates (from ansible control host)] ***************************************************************************************************************************************************************************************
+ok: [localhost] => (item=variables.tf.j2)
+ok: [localhost] => (item=outputs.tf.j2)
+ok: [localhost] => (item=cross_project.tf.j2)
+
+TASK [cross_project : set posttask path] ***********************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [set app_input_config from overrides file] ****************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [include component role] **********************************************************************************************************************************************************************************************************************************
+
+TASK [project_config : Set required project_var keys] **********************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [project_config : Assert required vars] *******************************************************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [project_config : Assert that all required project_var keys exist] ****************************************************************************************************************************************************************************************
+ok: [localhost] => (item=project_id) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_id",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_data_sensitivity) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_data_sensitivity",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_technical_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_technical_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_business_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_business_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_configuration_item) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_configuration_item",
+    "msg": "All assertions passed"
+}
+
+TASK [project_config : Debug app_input_config to verify what inputs should be combined into app_config] ********************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [project_config : initialize vars to defaults (this is needed when different roles that use them are ran in succession)] **********************************************************************************************************************************
+ok: [localhost]
+
+TASK [project_config : Get environment list (might be just prod)] **********************************************************************************************************************************************************************************************
+ok: [localhost] => (item=project_config_custom_overrides)
+
+TASK [project_config : Initialize app_config] ******************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=prod)
+
+TASK [project_config : Combine overrides into app_config] ******************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=project_config_custom_overrides)
+
+TASK [project_config : Debug app_config after combining overrides] *********************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [project_config : Write out the content of the app_config for this terraform_app] *************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [project_config : set app_dir] ****************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [project_config : Create app_dir] *************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [project_config : Create var file] ************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [project_config : Check for jinja templates in project_config dir] ****************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [project_config : debug terraform_templates] **************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [project_config : Check for pretask file] *****************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [project_config : Run pretasks (if needed)] ***************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [project_config : Apply jinja templates (from ansible control host)] **************************************************************************************************************************************************************************************
+ok: [localhost] => (item=variable.tf.j2)
+ok: [localhost] => (item=outputs.tf.j2)
+ok: [localhost] => (item=project.tf.j2)
+
+TASK [project_config : set posttask path] **********************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [set app_input_config from overrides file] ****************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [include component role] **********************************************************************************************************************************************************************************************************************************
+
+TASK [storage : Set required project_var keys] *****************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [storage : Assert required vars] **************************************************************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [storage : Assert that all required project_var keys exist] ***********************************************************************************************************************************************************************************************
+ok: [localhost] => (item=project_id) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_id",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_data_sensitivity) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_data_sensitivity",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_technical_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_technical_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_business_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_business_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_configuration_item) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_configuration_item",
+    "msg": "All assertions passed"
+}
+
+TASK [storage : Debug app_input_config to verify what inputs should be combined into app_config] ***************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [storage : initialize vars to defaults (this is needed when different roles that use them are ran in succession)] *****************************************************************************************************************************************
+ok: [localhost]
+
+TASK [storage : Get environment list (might be just prod)] *****************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=storage_custom_overrides)
+
+TASK [storage : Initialize app_config] *************************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=prod)
+
+TASK [storage : Combine overrides into app_config] *************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=storage_custom_overrides)
+
+TASK [storage : Debug app_config after combining overrides] ****************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [storage : Write out the content of the app_config for this terraform_app] ********************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [storage : set app_dir] ***********************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [storage : Create app_dir] ********************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [storage : Create var file] *******************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [storage : Check for jinja templates in storage dir] ******************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [storage : debug terraform_templates] *********************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [storage : Check for pretask file] ************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [storage : Run pretasks (if needed)] **********************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [storage : Apply jinja templates (from ansible control host)] *********************************************************************************************************************************************************************************************
+ok: [localhost] => (item=variables.tf.j2)
+ok: [localhost] => (item=storage.tf.j2)
+ok: [localhost] => (item=outputs.tf.j2)
+
+TASK [storage : set posttask path] *****************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [set app_input_config from overrides file] ****************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [include component role] **********************************************************************************************************************************************************************************************************************************
+
+TASK [functions : Set required project_var keys] ***************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [functions : Assert required vars] ************************************************************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [functions : Assert that all required project_var keys exist] *********************************************************************************************************************************************************************************************
+ok: [localhost] => (item=project_id) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_id",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_data_sensitivity) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_data_sensitivity",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_technical_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_technical_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_business_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_business_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_configuration_item) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_configuration_item",
+    "msg": "All assertions passed"
+}
+
+TASK [functions : Debug app_input_config to verify what inputs should be combined into app_config] *************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [functions : initialize vars to defaults (this is needed when different roles that use them are ran in succession)] ***************************************************************************************************************************************
+ok: [localhost]
+
+TASK [functions : Get environment list (might be just prod)] ***************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=functions_custom_overrides)
+
+TASK [functions : Initialize app_config] ***********************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=prod)
+
+TASK [functions : Combine overrides into app_config] ***********************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=functions_custom_overrides)
+
+TASK [functions : Debug app_config after combining overrides] **************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [functions : Write out the content of the app_config for this terraform_app] ******************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [functions : set app_dir] *********************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [functions : Create app_dir] ******************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [functions : Create var file] *****************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [functions : Check for jinja templates in functions dir] **************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [functions : debug terraform_templates] *******************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [functions : Check for pretask file] **********************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [functions : Run pretasks (if needed)] ********************************************************************************************************************************************************************************************************************
+included: /Users/pdille/git/devops/gcp-iac/roles/functions/tasks/pretask.yml for localhost
+
+TASK [functions : Create dir for functions] ********************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [functions : Template out slacknotify functions] **********************************************************************************************************************************************************************************************************
+included: /Users/pdille/git/devops/gcp-iac/roles/functions/tasks/slack_notify_tasks.yml for localhost => (item={'name': 'rundecknotify', 'description': 'Sends Pub/Sub messages to Slack', 'entry_point': 'slackNotify', 'runtime': 'nodejs10', 'memory_mb': '128', 'slackWebHook': 'https://hooks.slack.com/services/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'})
+
+TASK [functions : Template out slackNotify functions] **********************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [functions : Create a zip archive] ************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [functions : Apply jinja templates (from ansible control host)] *******************************************************************************************************************************************************************************************
+ok: [localhost] => (item=functions.tf.j2)
+ok: [localhost] => (item=variable.tf.j2)
+ok: [localhost] => (item=outputs.tf.j2)
+
+TASK [functions : set posttask path] ***************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [set app_input_config from overrides file] ****************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [include component role] **********************************************************************************************************************************************************************************************************************************
+
+TASK [external_ips : Set required project_var keys] ************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [external_ips : Assert required vars] *********************************************************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [external_ips : Assert that all required project_var keys exist] ******************************************************************************************************************************************************************************************
+ok: [localhost] => (item=project_id) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_id",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_data_sensitivity) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_data_sensitivity",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_technical_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_technical_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_business_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_business_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_configuration_item) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_configuration_item",
+    "msg": "All assertions passed"
+}
+
+TASK [external_ips : Debug app_input_config to verify what inputs should be combined into app_config] **********************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [external_ips : initialize vars to defaults (this is needed when different roles that use them are ran in succession)] ************************************************************************************************************************************
+ok: [localhost]
+
+TASK [external_ips : Get environment list (might be just prod)] ************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=external_ips_custom_overrides)
+ok: [localhost] => (item=external_ips_network)
+
+TASK [external_ips : Initialize app_config] ********************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=prod)
+
+TASK [external_ips : Combine overrides into app_config] ********************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=external_ips_custom_overrides)
+ok: [localhost] => (item=external_ips_network)
+
+TASK [external_ips : Debug app_config after combining overrides] ***********************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [external_ips : Write out the content of the app_config for this terraform_app] ***************************************************************************************************************************************************************************
+changed: [localhost]
+
+TASK [external_ips : set app_dir] ******************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [external_ips : Create app_dir] ***************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [external_ips : Create var file] **************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [external_ips : Check for jinja templates in external_ips dir] ********************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [external_ips : debug terraform_templates] ****************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [external_ips : Check for pretask file] *******************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [external_ips : Run pretasks (if needed)] *****************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [external_ips : Apply jinja templates (from ansible control host)] ****************************************************************************************************************************************************************************************
+ok: [localhost] => (item=variables.tf.j2)
+ok: [localhost] => (item=outputs.tf.j2)
+ok: [localhost] => (item=external_ips.tf.j2)
+
+TASK [external_ips : set posttask path] ************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [set app_input_config from overrides file] ****************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [include component role] **********************************************************************************************************************************************************************************************************************************
+
+TASK [artifact_registry : Set required project_var keys] *******************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [artifact_registry : Assert required vars] ****************************************************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [artifact_registry : Assert that all required project_var keys exist] *************************************************************************************************************************************************************************************
+ok: [localhost] => (item=project_id) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_id",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_data_sensitivity) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_data_sensitivity",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_technical_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_technical_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_business_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_business_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_configuration_item) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_configuration_item",
+    "msg": "All assertions passed"
+}
+
+TASK [artifact_registry : Debug app_input_config to verify what inputs should be combined into app_config] *****************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [artifact_registry : initialize vars to defaults (this is needed when different roles that use them are ran in succession)] *******************************************************************************************************************************
+ok: [localhost]
+
+TASK [artifact_registry : Get environment list (might be just prod)] *******************************************************************************************************************************************************************************************
+ok: [localhost] => (item=artifact_registry_custom_overrides)
+
+TASK [artifact_registry : Initialize app_config] ***************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=prod)
+
+TASK [artifact_registry : Combine overrides into app_config] ***************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=artifact_registry_custom_overrides)
+
+TASK [artifact_registry : Debug app_config after combining overrides] ******************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [artifact_registry : Write out the content of the app_config for this terraform_app] **********************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [artifact_registry : set app_dir] *************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [artifact_registry : Create app_dir] **********************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [artifact_registry : Create var file] *********************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [artifact_registry : Check for jinja templates in artifact_registry dir] **********************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [artifact_registry : debug terraform_templates] ***********************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [artifact_registry : Check for pretask file] **************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [artifact_registry : Run pretasks (if needed)] ************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [artifact_registry : Apply jinja templates (from ansible control host)] ***********************************************************************************************************************************************************************************
+ok: [localhost] => (item=variables.tf.j2)
+ok: [localhost] => (item=outputs.tf.j2)
+ok: [localhost] => (item=artifact_registry.tf.j2)
+
+TASK [artifact_registry : set posttask path] *******************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [set app_input_config from overrides file] ****************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [include component role] **********************************************************************************************************************************************************************************************************************************
+
+TASK [network : Set required project_var keys] *****************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : Assert required vars] **************************************************************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [network : Assert that all required project_var keys exist] ***********************************************************************************************************************************************************************************************
+ok: [localhost] => (item=project_id) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_id",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_data_sensitivity) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_data_sensitivity",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_technical_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_technical_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_business_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_business_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_configuration_item) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_configuration_item",
+    "msg": "All assertions passed"
+}
+
+TASK [network : Debug app_input_config to verify what inputs should be combined into app_config] ***************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [network : initialize vars to defaults (this is needed when different roles that use them are ran in succession)] *****************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : Get environment list (might be just prod)] *****************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=network_compute)
+ok: [localhost] => (item=network_custom_overrides)
+ok: [localhost] => (item=network_database)
+
+TASK [network : Initialize app_config] *************************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=prod)
+ok: [localhost] => (item=test)
+
+TASK [network : Combine overrides into app_config] *************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=network_compute)
+ok: [localhost] => (item=network_custom_overrides)
+ok: [localhost] => (item=network_database)
+
+TASK [network : Debug app_config after combining overrides] ****************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [network : Write out the content of the app_config for this terraform_app] ********************************************************************************************************************************************************************************
+changed: [localhost]
+
+TASK [network : set app_dir] ***********************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : Create app_dir] ********************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : Create var file] *******************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : Check for jinja templates in network dir] ******************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : debug terraform_templates] *********************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [network : Check for pretask file] ************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : Run pretasks (if needed)] **********************************************************************************************************************************************************************************************************************
+included: /Users/pdille/git/devops/gcp-iac/roles/network/tasks/pretask.yml for localhost
+
+TASK [network : Check for external_ips overrides file | network-pretask] ***************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : Include vars from external_ips overrides (if needed) | network-pretask] ************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : set up temp dictionary to combine into external_ips] *******************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : Combine temp dictionary into external_ips] *****************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : Write out external_ips-overrides] **************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : Check for database overrides file | network-pretask] *******************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : Include vars from database overrides (if needed) | network-pretask] ****************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : set up temp dictionary to combine into database] ***********************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : Combine temp dictionary into database] *********************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : Write out database-overrides] ******************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [network : Apply jinja templates (from ansible control host)] *********************************************************************************************************************************************************************************************
+ok: [localhost] => (item=network.tf.j2)
+ok: [localhost] => (item=variable.tf.j2)
+ok: [localhost] => (item=outputs.tf.j2)
+
+TASK [network : set posttask path] *****************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [set app_input_config from overrides file] ****************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [include component role] **********************************************************************************************************************************************************************************************************************************
+
+TASK [compute : Set required project_var keys] *****************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [compute : Assert required vars] **************************************************************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [compute : Assert that all required project_var keys exist] ***********************************************************************************************************************************************************************************************
+ok: [localhost] => (item=project_id) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_id",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_data_sensitivity) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_data_sensitivity",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_technical_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_technical_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_business_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_business_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_configuration_item) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_configuration_item",
+    "msg": "All assertions passed"
+}
+
+TASK [compute : Debug app_input_config to verify what inputs should be combined into app_config] ***************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [compute : initialize vars to defaults (this is needed when different roles that use them are ran in succession)] *****************************************************************************************************************************************
+ok: [localhost]
+
+TASK [compute : Get environment list (might be just prod)] *****************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=compute_custom_overrides)
+
+TASK [compute : Initialize app_config] *************************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=prod)
+ok: [localhost] => (item=test)
+
+TASK [compute : Combine overrides into app_config] *************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=compute_custom_overrides)
+
+TASK [compute : Debug app_config after combining overrides] ****************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [compute : Write out the content of the app_config for this terraform_app] ********************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [compute : set app_dir] ***********************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [compute : Create app_dir] ********************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [compute : Create var file] *******************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [compute : Check for jinja templates in compute dir] ******************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [compute : debug terraform_templates] *********************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [compute : Check for pretask file] ************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [compute : Run pretasks (if needed)] **********************************************************************************************************************************************************************************************************************
+included: /Users/pdille/git/devops/gcp-iac/roles/compute/tasks/pretask.yml for localhost
+
+TASK [compute : Check for network overrides file | database-pretask] *******************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [compute : Include vars from network overrides (if needed) | network-pretask] *****************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [compute : set up temp dictionary to combine into network] ************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [compute : Combine temp dictionary into network] **********************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [compute : Write out network-overrides] *******************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [compute : Apply jinja templates (from ansible control host)] *********************************************************************************************************************************************************************************************
+ok: [localhost] => (item=variable.tf.j2)
+ok: [localhost] => (item=outputs.tf.j2)
+ok: [localhost] => (item=compute.tf.j2)
+
+TASK [compute : set posttask path] *****************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [set app_input_config from overrides file] ****************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [include component role] **********************************************************************************************************************************************************************************************************************************
+
+TASK [database : Set required project_var keys] ****************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Assert required vars] *************************************************************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [database : Assert that all required project_var keys exist] **********************************************************************************************************************************************************************************************
+ok: [localhost] => (item=project_id) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_id",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_data_sensitivity) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_data_sensitivity",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_technical_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_technical_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_business_owner) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_business_owner",
+    "msg": "All assertions passed"
+}
+ok: [localhost] => (item=project_configuration_item) => {
+    "ansible_loop_var": "item",
+    "changed": false,
+    "item": "project_configuration_item",
+    "msg": "All assertions passed"
+}
+
+TASK [database : Debug app_input_config to verify what inputs should be combined into app_config] **************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [database : initialize vars to defaults (this is needed when different roles that use them are ran in succession)] ****************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Get environment list (might be just prod)] ****************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=database_custom_overrides)
+ok: [localhost] => (item=database_network)
+
+TASK [database : Initialize app_config] ************************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=prod)
+
+TASK [database : Combine overrides into app_config] ************************************************************************************************************************************************************************************************************
+ok: [localhost] => (item=database_custom_overrides)
+ok: [localhost] => (item=database_network)
+
+TASK [database : Debug app_config after combining overrides] ***************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [database : Write out the content of the app_config for this terraform_app] *******************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : set app_dir] **********************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Create app_dir] *******************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Create var file] ******************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Check for jinja templates in database dir] ****************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : debug terraform_templates] ********************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [database : Check for pretask file] ***********************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Run pretasks (if needed)] *********************************************************************************************************************************************************************************************************************
+included: /Users/pdille/git/devops/gcp-iac/roles/database/tasks/pretask.yml for localhost
+
+TASK [database : Check for network overrides file | database-pretask] ******************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Include vars from network overrides (if needed) | network-pretask] ****************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : set up temp dictionary to combine into network] ***********************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Combine temp dictionary into network] *********************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Write out network-overrides] ******************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [database : Apply jinja templates (from ansible control host)] ********************************************************************************************************************************************************************************************
+ok: [localhost] => (item=variables.tf.j2)
+ok: [localhost] => (item=outputs.tf.j2)
+ok: [localhost] => (item=database.tf.j2)
+
+TASK [database : set posttask path] ****************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************
+localhost                  : ok=356  changed=9    unreachable=0    failed=0    skipped=83   rescued=0    ignored=0   
+
+(⎈ |gke_hits-devops-atlassian-std_us-central1-a_prod-jira:default)gcp-iac % ansible-playbook psql_db.yml  -e customer=$CUSTOMER -e product_instance=$INSTANCE -e project_id=$PROJECT_ID                                                             (master|…2)

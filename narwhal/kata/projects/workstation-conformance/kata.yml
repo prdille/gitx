@@ -1,0 +1,138 @@
+###### 06-October-2021 ########
+###### 20-October-2021 ########
+#################
+### CHALLENGE ###
+#################
+  - Conformance Testin for Devops Workstation
+   
+############################
+############################
+#### TARGET CONDITION ######
+############################
+############################
+ - Create a conformance test(ct) for Devops Workstation
+  
+  
+############################
+############################
+#### CURRENT CONDITION #####
+############################
+############################  
+Where are we now?
+ - Investigating kubectl 
+ - playbook: kubectl-ct.yml
+
+   ##################
+   ### REFLECTION ###
+   ##################
+     1 - What did you plan as your LAST STEP:
+         - make a playbook already 
+     2 - What did you expect:
+	 - get a playbook to 'approve' of the expected state of kubectl
+     3 - What actually happened:
+         - played with ansible code
+	   - echo blah
+         - #-out ignore_errors 
+	   - got an error when unlinked 
+         - recieved a GOOD debug register of:
+	   - "failed": true,
+	   - "rc": 1
+	   - empty list []:
+	      - "stdout_lines"
+     4 - What did you learn:
+         - a few "a-ha" moments about ansible
+     
+############################
+############################
+######  OBSTACLES    #######
+############################
+############################  
+What's currently in our way?:
+  - time
+  - 
+  - others' pain-points
+  - ignorance on methods
+    - testing
+    - existence
+    - state
+RUNNING ISSUES
+  - asks for password for git pull after ssh -K is already run
+
+############################
+############################
+######  NEXT STEP    #######
+############################
+
+- move playbook to devops_workstation project
+  - make new branch
+- clean up kata
+- remane file
+- reveiw move more ansible code
+
+
+###### 20-October-2021 ########
+
+#- name: Use gcloud, register instance name 
+#  ansible.builtin.shell:
+#    cmd: gcloud sql instances list --format="value(name)" --filter=name~"{{ project_vars['project_configuration_item'] }}-prod-psql"
+#  register: gcloud_db_instance_output
+#
+#- name: Set psql_instance_name variable from gcloud command output 
+#  ansible.builtin.set_fact:
+#    psql_instance_name: "{{ gcloud_db_instance_output.stdout }}" 
+
+
+
+What's our next experiment?
+- can I run a simple playbook?
+- what's the most common WE'VE seen spending time on
+  - biggest pain point
+    - python v
+    - ansible v
+    - kubectl installed
+	spin up a new shell 
+        see if kubectl is installed
+ 
+  - git branches
+  - uncommited cod (19-OCT)
+13-OCT-2021
+  - kubectl
+  - Coninue investigation from ABOVE
+  - Conformance Testing (GENERALITIES)
+
+****
+**** kubectl is gone
+**** CONFIRM the product is working
+**** - proper function
+**** get the python version and make sure it's running the right version
+****
+
+
+****
+****
+**** ansible (ignore_errors: true)
+**** review ansible code
+****    - debug
+**** write first playbook
+****
+   ###################
+   ### EXPECTATION ###
+   ###################
+   - 13-OCT
+     - have a script made to check if kubectl exists
+   
+############################
+############################
+######   RESULTS     #######
+############################
+############################     
+When can we see what we've learned from that step?
+  - Tomorrow's (15-OCT-2021) LPD 
+  - somethinbg new.
+  
+*****
+18-OCT
+*****
+  - versions of 
+    - Terraform
+  -     

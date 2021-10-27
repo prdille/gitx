@@ -15,32 +15,148 @@
 ------------------------------------------------
 ################################################
 
-##################################################################################
-##################################################################################	  
-############### MONDAY--25-XYZ-9999 #############################################
-##################################################################################
-##################################################################################
+#####################################
+#####################################	  
+###### MONDAY--25-OCT-2021 ##########
+#####################################
+#####################################
 
-##################################################################################
-##################################################################################	  
-############### TUESDAY--26-XYZ-9999 #############################################
-##################################################################################
-##################################################################################
+09:15
+TC:
+start a gitlab dev using gitlab PROD data 
+AC: 
+possible documentation
+    gcp-iac
+      apps
+	gitlab
+	  README.md
 
-##################################################################################
-##################################################################################	  
-############### WEDNESDAY--27-XYZ-9999 ###########################################
-##################################################################################
-##################################################################################
 
-##################################################################################
-##################################################################################	  
-############### THURSDAY--28-XYZ-9999 ############################################
-##################################################################################
-##################################################################################
+hits-devops-toolinggitlab
+context
+  workloads
+many different deployments
+backups are version spe
 
-##################################################################################
-##################################################################################	  
-############### FRIDAY--29-XYZ-9999 #############################################
-##################################################################################
-##################################################################################
+OBS:
+prod backup -> dev
+  prod backup is in prod bucket
+
+  backup file name:
+    hits-devops-tooling-gitlab-prod-backups/1635123705_2021_10_25_14.3.2-ee_gitlab_backup.tar
+  url:
+    https://storage.cloud.google.com/hits-devops-tooling-gitlab-prod-backups/1635123705_2021_10_25_14.3.2-ee_gitlab_backup.tar
+  uri:
+    gs://hits-devops-tooling-gitlab-prod-backups/1635123705_2021_10_25_14.3.2-ee_gitlab_backup.tar
+
+Setu p complete
+NS:
+Restore
+gitlab README
+
+$ k get no
+  gke-dev-tooling-dev-tooling-node-pool-cc71260a-47st   Ready    <none>   13d   v1.22.1-gke.1602
+  gke-dev-tooling-dev-tooling-node-pool-cc71260a-nynl   Ready    <none>   13d   v1.22.1-gke.1602
+
+
+10:50
+OBS: 
+dev cluster is on gkev 1.22
+NS:
+  - delete dev node
+  - spin up a new dev node on 1.21 (conan)
+  - restore the prod backup on dev
+
+11:50
+OBS:
+  - compute terraform app needs a new default setting
+      workload_metadata_config {
+        - mode          = "GKE_METADATA"
+
+LUNCH
+13:10
+NS:
+  test configuration 
+code window
+
+- modifying 
+    git/devops/terraform-generic-modules/gke/
+      main.tf
+      variables.tf
+14:15
+TC:
+
+
+get in to context
+get out of context
+
+"deep work"
+
+#####################################
+#####################################	  
+###### TUESDAY--26-OCT-2021 #########
+#####################################
+#####################################
+ export FILE_NAME=gs://hits-devops-tooling-gitlab-prod-backups/1635123705_2021_10_25_14.3.2-ee_gitlab_backup.tar
+ export DEST=gs://hits-devops-tooling-gitlab-dev-backups/
+ gsutil cp $FILE_NAME $DEST
+
+gcloud container clusters get-credentials $CURR_ENV-tooling --zone us-central1-a --project hits-devops-tooling
+k get no
+gcloud container clusters delete dev-tooling --project hits-devops-tooling --zone us-central1-a
+k get no
+gcloud projects list
+gcloud projects list|awk '{print $1}'
+gcloud projects list|awk '{print $1}'|grep -v PROJECT_ID
+for i in `gcloud projects list|awk '{print $1}'|grep -v PROJECT_ID`; do gcloud config set project $i; gcloud container clusters list; done
+#####################################
+#####################################	  
+###### WEDNESDAY--27-OCT-2021 #######
+#####################################
+#####################################
+
+gitlabe recovery
+jira-2-0
+
+Sam
+James sent a message 
+weird kubernetes runner error
+
+disk "wierd"
+status unscheduler one nodes had taint i/o disk pressure the pod didn't tolerate
+
+code climate.yml
+  plugins 
+    study code
+      which rules?
+      tweeking rules
+
+sonar-java
+  altering individual rules perameters from the sonar plugin
+  sasd -- static applicats security
+Bruce wrote a snapshot pruner
+
+****
+****
+**** OPEN ENROLLMENT  
+****
+****
+
+TC: 
+  Gitlab dev up and running
+AC:
+  
+
+
+
+#####################################
+#####################################	  
+###### THURSDAY--28-OCT-2021 ########
+#####################################
+#####################################
+
+#####################################
+#####################################	  
+###### FRIDAY--29-OCT-2021 ##########
+#####################################
+#####################################

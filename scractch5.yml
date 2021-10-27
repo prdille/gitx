@@ -1,0 +1,10 @@
+terraform init \
+-backend-config="bucket=hits-devops-atlassian-std-tfstate" \
+-backend-config="prefix=database"
+
+terraform plan \
+-var-file=vars.json \
+-out=database.tfplan \
+-detailed-exitcode
+
+terraform apply database.tfplan

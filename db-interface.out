@@ -1,0 +1,76 @@
+(⎈ |gke_hits-devops-atlassian-std_us-central1-a_prod-jira:default)gcp-iac % ansible-playbook psql_db.yml -e customer=$CUSTOMER -e product_instance=$INSTANCE -e project_id=$PROJECT_ID                                                              (master|…2)
+[WARNING]: No inventory was parsed, only implicit localhost is available
+[WARNING]: provided hosts list is empty, only localhost is available. Note that the implicit localhost does not match 'all'
+
+PLAY [Get kubeconfig and pod info for a particular customer] ***************************************************************************************************************************************************************************************************
+
+TASK [Ensure required vars are defined] ************************************************************************************************************************************************************************************************************************
+ok: [localhost] => {
+    "changed": false,
+    "msg": "All assertions passed"
+}
+
+TASK [read project-specific vars] ******************************************************************************************************************************************************************************************************************************
+[WARNING]: While constructing a mapping from /Users/pdille/git/devops/gcp-iac/customer_products/atl/jira/hits-devops-atlassian-std/vars.yml, line 74, column 9, found a duplicate dict key (project). Using last defined value only.
+ok: [localhost]
+
+TASK [include project-specific vault] **************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [Use gcloud, set current project] *************************************************************************************************************************************************************************************************************************
+changed: [localhost]
+
+TASK [Use gcloud to connect to cluster] ************************************************************************************************************************************************************************************************************************
+changed: [localhost]
+
+TASK [Gather info for all pods with app label of db-interface] *************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [debug psql_pods retrieved with k8s_info] *****************************************************************************************************************************************************************************************************************
+skipping: [localhost]
+
+TASK [Set vault psql_pod_name] *********************************************************************************************************************************************************************************************************************************
+ok: [localhost]
+
+TASK [Add the pod to vault pod group] **************************************************************************************************************************************************************************************************************************
+changed: [localhost]
+
+PLAY [Apply psql schema .sql file to the psql_pods group] ******************************************************************************************************************************************************************************************************
+
+TASK [install python3 with raw module] *************************************************************************************************************************************************************************************************************************
+changed: [db-interface-79fddb64cf-jscf2]
+
+TASK [install python3-psycopg2 if needed] **********************************************************************************************************************************************************************************************************************
+changed: [db-interface-79fddb64cf-jscf2]
+TASK [Loop over and create databases from the overrides data structure] ****************************************************************************************************************************************************************************************
+changed: [db-interface-79fddb64cf-jscf2] => (item=chcrprod)
+changed: [db-interface-79fddb64cf-jscf2] => (item=chcrtest)
+changed: [db-interface-79fddb64cf-jscf2] => (item=doctrprod)
+changed: [db-interface-79fddb64cf-jscf2] => (item=doctrtest)
+changed: [db-interface-79fddb64cf-jscf2] => (item=hitsprod)
+changed: [db-interface-79fddb64cf-jscf2] => (item=hitstest)
+changed: [db-interface-79fddb64cf-jscf2] => (item=hitsdev)
+changed: [db-interface-79fddb64cf-jscf2] => (item=itsprod)
+changed: [db-interface-79fddb64cf-jscf2] => (item=itsdev)
+changed: [db-interface-79fddb64cf-jscf2] => (item=msfprod)
+changed: [db-interface-79fddb64cf-jscf2] => (item=msftest)
+changed: [db-interface-79fddb64cf-jscf2] => (item=orcrprod)
+changed: [db-interface-79fddb64cf-jscf2] => (item=orcrtest)
+changed: [db-interface-79fddb64cf-jscf2] => (item=publicnonitprod)
+changed: [db-interface-79fddb64cf-jscf2] => (item=publicnonittest)
+
+TASK [Create the generated_sql_path directory if it doesn't exist] *********************************************************************************************************************************************************************************************
+ok: [db-interface-79fddb64cf-jscf2]
+
+TASK [Generate template] ***************************************************************************************************************************************************************************************************************************************
+changed: [db-interface-79fddb64cf-jscf2]
+
+TASK [Set up pgpass file for password] *************************************************************************************************************************************************************************************************************************
+changed: [db-interface-79fddb64cf-jscf2]
+
+TASK [Run queries from SQL script with shell module] ***********************************************************************************************************************************************************************************************************
+changed: [db-interface-79fddb64cf-jscf2]
+
+PLAY RECAP *****************************************************************************************************************************************************************************************************************************************************
+db-interface-79fddb64cf-jscf2 : ok=7    changed=6    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+localhost                  : ok=8    changed=3    unreachable=0    failed=0    skipped=1    rescued=0    ignored=0   

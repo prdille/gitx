@@ -249,3 +249,71 @@ NS:
 ###### FRIDAY--15-OCT-2021 ##########
 #####################################
 #####################################
+
+bootstrap
+conan
+checkin
+accesories
+
+
+export ANSIBLE_VAULT_PASSWORD_FILE=~/.ansible/av $export ANSIBLE_COLLECTIONS_PATHS=./collections 
+export CUSTOMER=atl
+export INSTANCE=jira
+ansible-playbook bootstrap_product_instance.yml -e project_id=hits-devops-atlansian-std -e customer=$CUSTOMER -e product_instance=$INSTANCE
+
+gcloud config set project hits-devops-atlassian-std
+gcloud compute networks create test-vpc --project=hits-devops-atlassian-std --subnet-mode=custom --mtu=1460 --bgp-routing-mode=regional
+gcloud compute networks subnets create test-subnet --project=hits-devops-atlassian-std --range=10.0.0.0/9 --network=test-vpc --region=us-central1
+gcloud container clusters create tmpcluster --workload-pool=hits-devops-atlassian-std.svc.id.goog --zone=us-central1-a --network test-vpc --subnetwork test-subnet
+# Wait Till cluster is up! Then delete it and its dependencies!",
+gcloud container clusters delete tmpcluster --zone=us-central1-a && gcloud compute networks subnets delete test-subnet && gcloud compute networks delete test-vpc",
+
+
+
+10:15
+TC:
+  - Deploy Jira 2.0 project on GKE
+AC:
+  - Conan deployed sacrifice to Crom
+OBS:
+  - Accessories playbooks
+NS:
+  - checkin
+  - accessories playbooks 
+    - a
+Jira deployments
+  use ansible to deploy to the k8s cluster
+  - db modules written for them 
+  - gitlab-ci/  
+    - jenkins = tree of woe
+extra deployments and scripts and make them work in gitlab
+
+LUNCH
+TC: Achieved
+  - Deployed via Conana
+  - Acceceories.yml; product_vars.yml; psql_db.yml
+  - Project deployed in GKE
+    - expected
+      - users
+      - databases
+      - workload
+        - db-interface
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+TC:
+  - Prepare Jira for Migration
+     *?* - use ansible to deploy to the k8s cluster
+     *?*    - db modules written for them
+     *?*    - gitlab-ci/
+     *?*      - jenkins = tree of woe
+     *?*    - app/ "jira-runner"
+     *?*    - app/ "confluence-runner"
+            - 2.0 probs:
+	       host-vars
+	       group-vars
+		 not in 2.0
+  - Deploy Jira - SENSATIVE - to similar state
+  - 
+
+
+
