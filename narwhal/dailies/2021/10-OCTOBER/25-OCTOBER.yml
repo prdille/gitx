@@ -155,6 +155,32 @@ AC:
 #####################################
 #####################################
 
+*LUNCH*
+TC:
+  Push containers images to container registry with standard Prod config
+AC:
+  Push is possible ONLY with ONE pod present
+OBS:
+
+NS:
+  Reproduce the failure while tialing logs on both pods
+
+
+*SCRATCH
+Oct 28, 2021, 11:16:21 AM 
+ gitlab-registry-6b49fd9866-nlvrl 
+ehBWR3GyDF86C_rPnpoY
+sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain <certificate>:wq
+13:31
+AC:
+  TWO PODS present
+NS:
+  run docker push/watch logs
+
+
+
+
+
 #####################################
 #####################################	  
 ###### FRIDAY--29-OCT-2021 ##########
