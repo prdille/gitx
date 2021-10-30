@@ -186,3 +186,37 @@ NS:
 ###### FRIDAY--29-OCT-2021 ##########
 #####################################
 #####################################
+****   We came upon a problem pushing container images to a registry in GKE. Our registry has 2 pods:
+****    - gitlab-registry-xxxxxxx1
+****    - gitlab-registry-xxxxxxx2
+****  
+****    We get this output
+****  ```
+****  docker push <our-gitlab-registry-url>/nginx
+****  Using default tag: latest
+****  The push refers to repository [<our-gitlab-registry-url>/nginx]
+****  99xxxxf6e: Layer already exists
+****  f7xxxx07643: Layer already exists
+****  f8xxxxxxxef: Pushing [==================================================>]  4.096kB
+****  78xxxxxx186: Layer already exists
+****  43xxxxxxxx4: Retrying in 5 seconds
+****  e81xxxxxxdb: Pushing [>                                                  ]  525.3kB/69.25MB
+****  unknown blob
+****  ```
+****   We get these errors in the logs
+****  ```
+****  "error":"blob upload unknown"
+****  "error","msg":"error resolving upload"
+****  ```
+****    Not much to sink our teeth into. INTERESTINGLY, when we remove the second pod (making the registry ONLY one pod) the docker push works no problem. After a day of research, we have gone down MANY rabbit holes. Any thoughts?
+
+
+
+
+
+
+
+
+
+:wq
+
