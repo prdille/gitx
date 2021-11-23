@@ -1,0 +1,115 @@
+################################################
+------------------------------------------------
+------------------------------------------------
+------------------------------------------------
+-----------    November 2021      --------------
+----------- Su  Mo  Tu We Th Fr Sa ------------- 
+-----------    *1*   2  3  4  5  6 -------------
+-----------  7  8    9 10 11 12 13 -------------
+----------- 14  15  16 17 18 19 20 -------------
+----------- 21  22  23 24 25 26 27 -------------
+----------- 28  29  30             -------------
+------------------------------------------------
+------------------------------------------------
+------------------------------------------------
+################################################
+
+###########################################
+###########################################	  
+####### MONDAY--15-NOV-2021 ###############
+###########################################
+###########################################
+
+fatal: [localhost]: FAILED! => {"changed": false, "msg": "Error: python@3.10: the bottle needs the Apple Command Line Tools to be installed.\n  You can install them, if desired, with:\n    xcode-select --install\n\nYou can try to install from source with:\n  brew install --build-from-source python@3.10\nPlease note building from source is unsupported. You will encounter build\nfailures with some formulae. If you experience any issues please create pull\nrequests instead of asking for help on Homebrew's GitHub, Twitter or any other\nofficial channels."}
+
+projects/644924187413/secrets/devops-vault-devops/versions/4
+
+172.217.214.95
+
+export PATH_TO_CATAVAULT=./gcp-iac/apps/catavault/catavault-client.py
+ansible-playbook template.yml  -e k8s_clusters_path=./k8s-clusters/test-atlassian -e certs_repo_path=./certificates -e jira_instance=test -e curr_env=test --vault-id devops@$PATH_TO_CATAVAULT --vault-id certs@$PATH_TO_CATAVAULT
+
+
+###########################################
+###########################################	  
+####### TUESDAY--16-NOV-2021 ##############
+###########################################
+###########################################
+INC1594452
+  my ip address configured on hits-devops-tooling:19
+
+###########################################
+###########################################	  
+####### WEDNESDAY--17-NOV-2021 ############
+###########################################
+###########################################
+
+
+###########################################
+###########################################	  
+####### THURSDAY--18-NOV-2021 #############
+###########################################
+###########################################
+
+kubectl log -n dev-gitlab gitlab-webservice-default-548fh30-3f68s -c
+
+gcloud terrible in container registry
+
+[31;1mERROR: Registering runner... failed [0;m [31;1mrunner[0;m=NbBiuCU3 [31;1mstatus[0;m=couldn't execute POST against https://git-dev.umms.med.umich.edu/api/v4/runners: Post https://git-dev.umms.med.umich.edu/api/v4/runners: x509: certificate signed by unknown authority
+
+
+        - /usr/bin/dumb-init
+        - --
+        - /bin/bash
+        - /configmaps/entrypoint
+
+openssl s_client -showcerts -servername git.umms.med.umich.edu -connect git.umms.med.umich.edu:44
+
+export ENV=dev
+kubectl create namespace $ENV-gitlab
+kubectl create secret tls gitlab-$ENV-tls \
+  --cert=/tmp/gitlab-$ENV.app.med.umich.edu.crt \
+  --key=/tmp/gitlab-$ENV.app.med.umich.edu.key \
+  --namespace=$ENV-gitlab
+kubectl create secret tls registry-$ENV-tls \
+  --cert=/tmp/registry-$ENV.app.med.umich.edu.crt \
+  --key=/tmp/registry-$ENV.app.med.umich.edu.key \
+  --namespace=$ENV-gitlab
+
+
+https://www.umms.med.umich.edu/projects/browse/SDS-4322 
+
+
+
+
+zsh: command not found: ansible-docs
+###########################################
+###########################################	  
+####### FRIDAY--19-NOV-2021 ###############
+###########################################
+###########################################
+
+COMPRIMISE(?):
+      - service-1070650370969@gcp-sa-vpcaccess.iam.gserviceaccount.com
+    IP address of requester
+      - 2002:a17:513:fe8:b0:433:f37d:f70c
+      - 2002:a30:6693:0:b0:328:94a:6d3b
+    Client
+      - User agent: Tesseract Google-API-Java-Client Google-HTTP-Java-Client/1.26.0-SNAPSHOT (gzip)
+
+cert repo
+chain
+cert intermed  
+certmg_crt_csr
+certmg_fullchain_cert -> 
+certmgr_signed_certs
+
+certificates/collect.yml
+/tasks/collect-api-call.yml
+
+
+
+
+
+
+

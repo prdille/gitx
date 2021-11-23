@@ -16,30 +16,87 @@
 
 ###########################################
 ###########################################	  
-####### MONDAY--00-XYZ-2021 ###############
+####### MONDAY--01-NOV-2021 ###############
 ###########################################
 ###########################################
 
 ###########################################
 ###########################################	  
-####### TUESDAY--00-XYZ-2021 ##############
+####### TUESDAY--02-NOV-2021 ##############
+###########################################
+###########################################
+
+Sam:
+  - runner issue
+  
+Bruce:
+  - Can't get the gitlab hash to connect
+
+re-enable 263
+  issue t5
+
+git@gitlab.com:gitlab-com/support/toolbox/kubesos.git
+
+###########################################
+###########################################	  
+####### WEDNESDAY--03-NOV-2021 ############
+###########################################
+###########################################
+
+ansible tower
+a cluster migration for prod
+had to add to inventory file first
+  - k8s-sds-prod-customer
+    - k8s_cluster
+      - inventory
+
+On premice cluster migration of Sabre
+  - Migrate k8s
+fix cicd rbac on cluster migrations
+in infra-as-code
+
+ns-sds.med.umich.edu/menu/neo
+
+
+simple playbook list as your var. make it a comma separate list
+ansible list
+make them a string of csv
+join
+
+
+    - name: Debug cidr list
+      ansible.builtin.debug:
+        msg: "{{ item | join(',') }}"
+      loop: "{{ actual_cidr_list }}"
+
+      ansible.builtin.set_fact:
+        snow_short_description: >-
+          Run compute Conan for {{ project_id }} after
+          {{ ansible_date_time.date }}
+
+
+it's not his baby, it's our baby
+HE needs to learn from US
+
+That's the type of team we are
+  we are the all star team 
+  we need an all star manager
+    not an advesary
+
+
+
+
+
+
+
+###########################################
+###########################################	  
+####### THURSDAY--04-NOV-2021 #############
 ###########################################
 ###########################################
 
 ###########################################
 ###########################################	  
-####### WEDNESDAY--00-XYZ-2021 ############
-###########################################
-###########################################
-
-###########################################
-###########################################	  
-####### THURSDAY--00-XYZ-2021 #############
-###########################################
-###########################################
-
-###########################################
-###########################################	  
-####### FRIDAY--00-XYZ-2021 ###############
+####### FRIDAY--05-NOV-2021 ###############
 ###########################################
 ###########################################
