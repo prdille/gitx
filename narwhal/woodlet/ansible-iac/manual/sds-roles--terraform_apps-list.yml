@@ -1,0 +1,11 @@
+artifact_registry
+cloud_run
+compute
+cross_project
+customer
+database
+external_ips
+functions
+network
+project_config
+storage
