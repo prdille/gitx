@@ -1,0 +1,226 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  creationTimestamp: "2021-12-29T21:21:17Z"
+  managedFields:
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:spec:
+        f:containers:
+          k:{"name":"cloud-sql-proxy"}:
+            .: {}
+            f:command: {}
+            f:image: {}
+            f:imagePullPolicy: {}
+            f:name: {}
+            f:resources:
+              .: {}
+              f:limits:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+              f:requests:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+            f:terminationMessagePath: {}
+            f:terminationMessagePolicy: {}
+          k:{"name":"postgres"}:
+            .: {}
+            f:command: {}
+            f:image: {}
+            f:imagePullPolicy: {}
+            f:name: {}
+            f:resources:
+              .: {}
+              f:limits:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+              f:requests:
+                .: {}
+                f:cpu: {}
+                f:memory: {}
+            f:terminationMessagePath: {}
+            f:terminationMessagePolicy: {}
+        f:dnsPolicy: {}
+        f:enableServiceLinks: {}
+        f:restartPolicy: {}
+        f:schedulerName: {}
+        f:securityContext: {}
+        f:serviceAccount: {}
+        f:serviceAccountName: {}
+        f:terminationGracePeriodSeconds: {}
+    manager: OpenAPI-Generator
+    operation: Update
+    time: "2021-12-29T21:21:17Z"
+  - apiVersion: v1
+    fieldsType: FieldsV1
+    fieldsV1:
+      f:status:
+        f:conditions:
+          k:{"type":"ContainersReady"}:
+            .: {}
+            f:lastProbeTime: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Initialized"}:
+            .: {}
+            f:lastProbeTime: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+          k:{"type":"Ready"}:
+            .: {}
+            f:lastProbeTime: {}
+            f:lastTransitionTime: {}
+            f:status: {}
+            f:type: {}
+        f:containerStatuses: {}
+        f:hostIP: {}
+        f:phase: {}
+        f:podIP: {}
+        f:podIPs:
+          .: {}
+          k:{"ip":"10.4.8.47"}:
+            .: {}
+            f:ip: {}
+        f:startTime: {}
+    manager: kubelet
+    operation: Update
+    time: "2021-12-29T21:21:18Z"
+  name: migrate-orcrtest-to-orcrtest
+  namespace: devops-psql
+  resourceVersion: "37146586"
+  uid: 18b8214a-bf00-4c71-a9e0-4ec62cb9390d
+spec:
+  containers:
+  - command:
+    - bash
+    - -c
+    - while :;do :; sleep 3000; done
+    image: us-docker.pkg.dev/hits-devops-containerregi-4cb7/the-red-keep/postgres:13
+    imagePullPolicy: IfNotPresent
+    name: postgres
+    resources:
+      limits:
+        cpu: "1"
+        memory: 256Mi
+      requests:
+        cpu: "1"
+        memory: 256Mi
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-v2fhd
+      readOnly: true
+  - command:
+    - /cloud_sql_proxy
+    - -instances=hits-devops-atlassian-tes-3635:us-central1:jira-test-psql-09d25486=tcp:5432,hits-devops-atlassian-std:us-central1:jira-psql-ab4a11a2=tcp:5433
+    image: us-docker.pkg.dev/hits-devops-containerregi-4cb7/the-red-keep/cloudsql-docker/gce-proxy:1.27.1
+    imagePullPolicy: IfNotPresent
+    name: cloud-sql-proxy
+    resources:
+      limits:
+        cpu: 100m
+        memory: 256Mi
+      requests:
+        cpu: 100m
+        memory: 256Mi
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-v2fhd
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: gke-prod-atlassian-prod-atlassian-nod-b534e945-at3y
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: devops-psql-sa
+  serviceAccountName: devops-psql-sa
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: kube-api-access-v2fhd
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2021-12-29T21:21:17Z"
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2021-12-29T21:21:18Z"
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2021-12-29T21:21:18Z"
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2021-12-29T21:21:17Z"
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://4f7a2c370f180ac5b7dbcef0203708a4cfceaa16d2bde9fc4d380395522c611f
+    image: us-docker.pkg.dev/hits-devops-containerregi-4cb7/the-red-keep/cloudsql-docker/gce-proxy:1.27.1
+    imageID: us-docker.pkg.dev/hits-devops-containerregi-4cb7/the-red-keep/cloudsql-docker/gce-proxy@sha256:a08c4520f3214695a5eb8e57ea76de6db7d669fbb1f73177d01c36c811e6e351
+    lastState: {}
+    name: cloud-sql-proxy
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2021-12-29T21:21:18Z"
+  - containerID: containerd://b49127e77dae2d9e6b9f35c8252b9aef9fb3b61008d135eb18736bc437e9607b
+    image: us-docker.pkg.dev/hits-devops-containerregi-4cb7/the-red-keep/postgres:13
+    imageID: us-docker.pkg.dev/hits-devops-containerregi-4cb7/the-red-keep/postgres@sha256:4bca01db9119d6003c03e55843ad15c54ab5c3c1b4a374e5550ceed18b2808be
+    lastState: {}
+    name: postgres
+    ready: true
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2021-12-29T21:21:18Z"
+  hostIP: 10.4.0.5
+  phase: Running
+  podIP: 10.4.8.47
+  podIPs:
+  - ip: 10.4.8.47
+  qosClass: Guaranteed
+  startTime: "2021-12-29T21:21:17Z"
+
