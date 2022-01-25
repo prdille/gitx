@@ -1,0 +1,11 @@
+ export KUBECONFIG=~/.kube/cicd-non-prod.config
+ kubectl config use-context cicd-sds-dev
+ kubectl get nodes
+
+ansible-playbook controller-interface.yml -e netscaler_server_name=ns-sds -e ns_resource_name=cspolicy --ask-vault-pass
+ansible-playbook controller-interface.yml -e netscaler_server_name=ns-sds -e ns_resource_name=csaction --ask-vault-pass
+ansible-playbook controller-interface.yml -e netscaler_server_name=ns-sds -e ns_resource_name=lbvserver --ask-vault-pass
+ansible-playbook lbvserver.yml -e netscaler_server_name=ns-sds -e ns_resources_to_add=[] --ask-vault-pass
+ansible-playbook lbvserver.yml -e netscaler_server_name=ns-sds -e ns_resources_to_add='[]' --ask-vault-pass
+# lbserver stuff did not work and we ahd to just delete them from the UI
+ansible-playbook controller-interface.yml -e netscaler_server_name=ns-sds -e ns_resource_name=service --ask-vault-pass
